@@ -1,7 +1,7 @@
 import { FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -10,11 +10,15 @@ import { Helmet } from 'react-helmet-async';
 const Login = () => {
     const { loginUser } = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const onSubmit = (data) => {
         loginUser(data.email, data.password)
             .then(res => {
                 const loggedUser = res.user;
                 console.log(loggedUser);
+                navigate(from, { replace: true});
             });
     }
 

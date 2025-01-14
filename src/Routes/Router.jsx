@@ -7,6 +7,7 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import ForgetPassword from "../Pages/Auth/ForgetPassword";
+import Classes from "../Pages/Classes/Classes";
 
   export const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ import ForgetPassword from "../Pages/Auth/ForgetPassword";
         {
           path: "/Forget-Password",
           element: <ForgetPassword></ForgetPassword>,
+        },
+        {
+          path: "/Classes",
+          element: <Classes></Classes>,
         },
       ]
     },
