@@ -1,10 +1,20 @@
 import { FaUser, FaEnvelope, FaEyeSlash, FaImage } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
-    const { register, formState: { errors }, handleSubmit } = useForm()
-    const onSubmit = (data) => console.log(data)
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    const {createUser} = useContext(AuthContext);
+    const onSubmit = data =>{
+        console.log(data);
+        createUser(data.email, data.password)
+        .then (res => {
+            const loggedUser = res.user;
+            console.log(loggedUser);
+        })
+    } 
     return (
         <div className=" bg-white md:h-screen">
             <div className="grid md:grid-cols-2 items-center gap-8 h-full">
