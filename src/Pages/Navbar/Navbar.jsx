@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg"
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                console.log("Logged out successfully");
+            })
+            .catch(error => console.log(error))
+    }
     const link =
         <>
             <li><a>Home</a></li>
@@ -44,8 +54,34 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end space-x-5">
-                        <Link to="/Login" className="btn">Login</Link>
-                        <Link to="/Register" className="btn">Register</Link>
+                        {
+                            user ?
+                                <>
+                                    <div className="dropdown dropdown-end">
+                                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                            <div className="w-10 rounded-full">
+                                                <img
+                                                    alt="Tailwind CSS Navbar component"
+                                                    src={user.photoURL} />
+                                            </div>
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                                            <li>
+                                                <p className="justify-between">
+                                                    {user.displayName}
+                                                </p>
+                                            </li>
+                                            <li><a>Dashboard</a></li>
+                                            <li><a onClick={handleLogOut}>Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </> : <>
+                                    <Link to="/Login" className="btn">Login</Link>
+                                    <Link to="/Register" className="btn">Register</Link>
+                                </>
+                        }
                     </div>
                 </div>
             </div>

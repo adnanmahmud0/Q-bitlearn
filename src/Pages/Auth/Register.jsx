@@ -6,14 +6,16 @@ import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const {createUser} = useContext(AuthContext);
+    const {createUser, updateUserProfile} = useContext(AuthContext);
     const onSubmit = data =>{
         console.log(data);
         createUser(data.email, data.password)
         .then (res => {
+            updateUserProfile(data.name)
             const loggedUser = res.user;
             console.log(loggedUser);
-        })
+        });
+
     } 
     return (
         <div className=" bg-white md:h-screen">
