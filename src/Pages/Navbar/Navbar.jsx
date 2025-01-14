@@ -14,7 +14,7 @@ const Navbar = () => {
     }
     const link =
         <>
-            <li><a>Home</a></li>
+            <li><Link to="/">Home</Link></li>
             <li><a>All Classes</a></li>
             <li><a>Teach on edurock</a></li>
         </>
@@ -69,7 +69,7 @@ const Navbar = () => {
                                             tabIndex={0}
                                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                                             <li>
-                                                <p className="justify-between">
+                                                <p className="bg-base-300">
                                                     {user.displayName}
                                                 </p>
                                             </li>
