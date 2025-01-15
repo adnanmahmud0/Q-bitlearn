@@ -6,8 +6,10 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Login = () => {
+    const axiosPublic = useAxiosPublic();
     const { loginUser, signInWithGoogle } = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm()
     const navigate = useNavigate();
@@ -20,6 +22,26 @@ const Login = () => {
                 console.log(loggedUser);
                 navigate(from, { replace: true});
             });
+    }
+
+    const googleSignIn = () =>{
+        signInWithGoogle()
+        .then(res => {
+            const loggedUser = res.user;
+            console.log(loggedUser);
+            const userInfo = {
+                name: loggedUser.name,
+                email: loggedUser.email,
+            }
+            axiosPublic.post('/users', userInfo)
+            .then(res=> {
+                if(res.data.insertedId){
+                    console.log('user added to the database');
+                    navigate('/');
+                }
+            })
+            navigate(from, { replace: true});
+        });
     }
 
     return (
@@ -113,7 +135,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="space-x-6 flex justify-center">
-                                    <button type="button" className="border-none outline-none">
+                                    <button onClick={googleSignIn} type="button" className="border-none outline-none">
                                         <FcGoogle className="w-7 h-7 inline" />
                                     </button>
                                 </div>

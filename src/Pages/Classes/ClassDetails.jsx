@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ClassDetails = () => {
     const { id } = useParams();
@@ -60,7 +60,7 @@ const ClassDetails = () => {
                             </div>
 
                             <div className="flex gap-4 mt-12 max-w-md">
-                                <button type="button" className="w-full px-4 py-2.5 outline-none border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded">Play now</button>
+                                <Link to={`/Payment/${id}`} type="button" className="w-full text-center px-4 py-2.5 outline-none border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded">Play now</Link>
                             </div>
                         </div>
                     </div>

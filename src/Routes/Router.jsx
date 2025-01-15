@@ -11,6 +11,8 @@ import Classes from "../Pages/Classes/Classes";
 import ClassDetails from "../Pages/Classes/ClassDetails";
 import TeachOnEdurock from "../Pages/Teach/TeachOnEdurock";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import DashboardRoot from "../Pages/DashboardRoot";
+import Payment from "../Pages/Payment/Payment";
 
   export const router = createBrowserRouter([
     {
@@ -47,10 +49,19 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
           element: <TeachOnEdurock></TeachOnEdurock>,
         },
         {
-          path: "/Dashboard",
-          element: <Dashboard></Dashboard>
+          path: "/Payment/:id",
+          element: <Payment></Payment>,
         }
-
       ]
     },
+    {
+      path: "/Dashboard",
+      element: <DashboardRoot></DashboardRoot>,
+      children:[
+        {
+          path: "/Dashboard",
+          element: <Dashboard></Dashboard>,
+        }
+      ]
+    }
   ]);
