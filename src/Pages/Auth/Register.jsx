@@ -1,12 +1,15 @@
 import { FaUser, FaEnvelope, FaEyeSlash, FaImage } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
 import axios from "axios";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Register = () => {
+    const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
     const { register, formState: { errors }, handleSubmit } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -22,7 +25,20 @@ const Register = () => {
                 },
             });
             const imageUrl = imageUploadResponse.data.data.display_url;
-            await updateUserProfile(data.name, imageUrl);
+            await updateUserProfile(data.name, imageUrl)
+            .then(() => {
+                const userInfo = {
+                    name: data.name,
+                    email: data.email,
+                }
+                axiosPublic.post('/users', userInfo)
+                .then(res=> {
+                    if(res.data.insertedId){
+                        console.log('user added to the database');
+                        navigate('/');
+                    }
+                })
+            })
             console.log('User created and profile updated successfully');
         } catch (error) {
             console.error('Error creating user:', error);

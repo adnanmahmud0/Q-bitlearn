@@ -8,7 +8,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
-    const { loginUser } = useContext(AuthContext);
+    const { loginUser, signInWithGoogle } = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm()
     const navigate = useNavigate();
     const location = useLocation();
