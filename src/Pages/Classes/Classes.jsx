@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Classes = () => {
     const [classes, setClasses] = useState([]); // Ensure classes is an empty array initially
@@ -33,8 +34,13 @@ const Classes = () => {
         setCurrentPage(pageNumber);
     };
 
-    // Total number of pages
-    const totalPages = Math.ceil(classes.length / itemsPerPage);
+    // Total number of items and pages
+    const totalItems = classes.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Calculate the range of items being shown
+    const startIndex = (currentPage - 1) * itemsPerPage + 1;
+    const endIndex = Math.min(currentPage * itemsPerPage, totalItems);
 
     if (loading) {
         return <div>Loading...</div>; // Show loading indicator while fetching
@@ -46,9 +52,34 @@ const Classes = () => {
 
     return (
         <div className="p-4 mx-auto max-w-7xl">
+            <div className="flex justify-between items-center border p-5 mb-5 rounded-xl shadow">
+                <p className="text-sm text-gray-600">
+                    Showing {startIndex}-{endIndex} of {totalItems}
+                </p>
+                {/* Pagination Controls */}
+                <div className="flex justify-center">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-l-md"
+                    >
+                        Previous
+                    </button>
+                    <div className="flex items-center justify-center px-4">
+                        <span>Page {currentPage} of {totalPages}</span>
+                    </div>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-r-md"
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
             <div className="grid grid-cols-3 gap-4">
                 {currentClasses.map((classItem, index) => (
-                    <div key={index} className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-md transition-all relative">
+                    <div key={index} className="bg-white flex flex-col overflow-hidden hover:shadow-md transition-all relative">
                         <div className="w-full">
                             <img src={classItem.image} alt={classItem.name} className="w-full object-cover object-top aspect-[230/150]" />
                         </div>
@@ -68,35 +99,14 @@ const Classes = () => {
                                     <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem.teacher.name}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2 mt-4">
+                            <Link to={`/Class-Details/${classItem._id}`} className="flex items-center gap-2 mt-4">
                                 <button type="button" className="text-sm px-2 min-h-[36px] w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">
                                     Enroll
                                 </button>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 ))}
-            </div>
-
-            {/* Pagination Controls */}
-            <div className="flex justify-center mt-4">
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-l-md"
-                >
-                    Previous
-                </button>
-                <div className="flex items-center justify-center px-4">
-                    <span>Page {currentPage} of {totalPages}</span>
-                </div>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-r-md"
-                >
-                    Next
-                </button>
             </div>
         </div>
     );

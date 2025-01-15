@@ -16,7 +16,7 @@ const Navbar = () => {
         <>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Classes">All Classes</Link></li>
-            <li><a>Teach on edurock</a></li>
+            <li><Link to="/Teach-On-Edurock">Teach on edurock</Link></li>
         </>
 
     return (
@@ -73,7 +73,7 @@ const Navbar = () => {
                                                     {user.displayName}
                                                 </p>
                                             </li>
-                                            <li><a>Dashboard</a></li>
+                                            <li><Link to="Dashboard">Dashboard</Link></li>
                                             <li><a onClick={handleLogOut}>Logout</a></li>
                                         </ul>
                                     </div>

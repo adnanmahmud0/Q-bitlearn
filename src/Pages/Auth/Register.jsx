@@ -4,20 +4,30 @@ import { useForm } from "react-hook-form"
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
+import axios from "axios";
 
 const Register = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
-    const onSubmit = data => {
-        console.log(data);
-        createUser(data.email, data.password)
-            .then(res => {
-                updateUserProfile(data.name)
-                const loggedUser = res.user;
-                console.log(loggedUser);
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+    const onSubmit = async (data) => {
+        try {
+            const res = await createUser(data.email, data.password);
+            const imageFile = new FormData();
+            imageFile.append('image', data.image[0]);
+            const imageUploadResponse = await axios.post(image_hosting_api, imageFile, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                },
             });
-
-    }
+            const imageUrl = imageUploadResponse.data.data.display_url;
+            await updateUserProfile(data.name, imageUrl);
+            console.log('User created and profile updated successfully');
+        } catch (error) {
+            console.error('Error creating user:', error);
+        }
+    };
     return (
         <>
             <Helmet>

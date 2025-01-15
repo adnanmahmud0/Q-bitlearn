@@ -8,6 +8,9 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import ForgetPassword from "../Pages/Auth/ForgetPassword";
 import Classes from "../Pages/Classes/Classes";
+import ClassDetails from "../Pages/Classes/ClassDetails";
+import TeachOnEdurock from "../Pages/Teach/TeachOnEdurock";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
   export const router = createBrowserRouter([
     {
@@ -35,6 +38,19 @@ import Classes from "../Pages/Classes/Classes";
           path: "/Classes",
           element: <Classes></Classes>,
         },
+        {
+          path: "/Class-Details/:id",
+          element: <ClassDetails></ClassDetails>,
+        },
+        {
+          path: "/Teach-On-Edurock",
+          element: <TeachOnEdurock></TeachOnEdurock>,
+        },
+        {
+          path: "/Dashboard",
+          element: <Dashboard></Dashboard>
+        }
+
       ]
     },
   ]);
