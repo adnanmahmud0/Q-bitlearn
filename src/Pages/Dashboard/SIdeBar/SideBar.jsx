@@ -121,11 +121,11 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li>
-                            <a
+                            <Link to='/Dashboard/users'
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiUser className="mr-2" /> {/* React Icon */}
-                                <span>User</span>
-                            </a>
+                                <span>Users</span>
+                            </Link>
                         </li>
                         <li>
                             <a

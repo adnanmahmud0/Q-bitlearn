@@ -3,6 +3,7 @@ import { FcApprove, FcDisapprove } from "react-icons/fc";
 
 
 const TeacherRequest = () => {
+    
     return (
         <>
             <div className="relative pt-[70px] h-screen">

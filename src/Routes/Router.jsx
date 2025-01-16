@@ -16,6 +16,7 @@ import Payment from "../Pages/Payment/Payment";
 import TeacherRequest from "../Pages/Dashboard/TeacherRequest/TeacherRequest";
 import MyEnrolledClasses from "../Pages/Dashboard/MyEnrolledClasses/MyEnrolledClasses";
 import EnrollClassDetails from "../Pages/Dashboard/MyEnrolledClasses/EnrollClassDetails";
+import Users from "../Pages/Dashboard/Users/Users";
 
   export const router = createBrowserRouter([
     {
@@ -76,7 +77,11 @@ import EnrollClassDetails from "../Pages/Dashboard/MyEnrolledClasses/EnrollClass
         {
           path: "/Dashboard/Enroll-Class-Details/:id",
           element: <EnrollClassDetails></EnrollClassDetails>
-        }
+        },
+        {
+          path: "/Dashboard/Users",
+          element: <Users></Users>,
+        },
       ]
     }
   ]);
