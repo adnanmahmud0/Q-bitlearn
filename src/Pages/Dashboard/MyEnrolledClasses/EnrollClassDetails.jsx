@@ -1,8 +1,6 @@
-import { FcApprove, FcDisapprove } from "react-icons/fc";
-
-
-
-const TeacherRequest = () => {
+import React from 'react';
+import { MdAssignment } from "react-icons/md";
+const EnrollClassDetails = () => {
     return (
         <>
             <div className="relative pt-[70px] h-screen">
@@ -12,15 +10,19 @@ const TeacherRequest = () => {
                         </nav>
 
                         <section className="main-content w-full overflow-auto p-6">
+                            <div className='flex justify-between'>
+                                <button className="btn">+ Teaching Evaluation Report </button>
+                                <button className="btn">Button</button>
+                            </div>
                             <div className="overflow-x-auto">
                                 <table className="table">
                                     {/* head */}
                                     <thead>
                                         <tr>
-                                            <th>User & Experience</th>
-                                            <th>Title & Category</th>
-                                            <th>status</th>
-                                            <th>Option</th>
+                                            <th>Title & Description</th>
+                                            <th>Deadline</th>
+                                            <th>Status</th>
+                                            <th>Your Assignment Link</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -28,13 +30,7 @@ const TeacherRequest = () => {
                                         <tr>
                                             <td>
                                                 <div className="flex items-center gap-3">
-                                                    <div className="avatar">
-                                                        <div className="mask mask-squircle h-12 w-12">
-                                                            <img
-                                                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                                                                alt="Avatar Tailwind CSS Component" />
-                                                        </div>
-                                                    </div>
+                                                    <MdAssignment className='size-8' />
                                                     <div>
                                                         <div className="font-bold">Hart Hagerty</div>
                                                         <div className="text-sm opacity-50">United States</div>
@@ -42,17 +38,20 @@ const TeacherRequest = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                Zemlak, Daniel and Leannon
-                                                <br />
-                                                <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
+                                                <p>12-05-2025</p>
                                             </td>
-                                            <td>Purple</td>
-                                            <th>
-                                                <div>
-                                                    <button className="btn btn-ghost"><FcApprove className="size-7" /></button>
-                                                    <button className="btn btn-ghost"><FcDisapprove className="size-7" /></button>
-                                                </div>
-                                            </th>
+                                            <td>
+                                                <p>Not Submited</p>
+                                            </td>
+                                            <td>
+                                                <form>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Type here"
+                                                        className="input input-bordered input-sm w-full max-w-xs" />
+                                                    <button className="btn btn-sm ml-5">Small</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -65,4 +64,4 @@ const TeacherRequest = () => {
     );
 };
 
-export default TeacherRequest;
+export default EnrollClassDetails;

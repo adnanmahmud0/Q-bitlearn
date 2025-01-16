@@ -14,6 +14,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import DashboardRoot from "../Pages/DashboardRoot";
 import Payment from "../Pages/Payment/Payment";
 import TeacherRequest from "../Pages/Dashboard/TeacherRequest/TeacherRequest";
+import MyEnrolledClasses from "../Pages/Dashboard/MyEnrolledClasses/MyEnrolledClasses";
+import EnrollClassDetails from "../Pages/Dashboard/MyEnrolledClasses/EnrollClassDetails";
 
   export const router = createBrowserRouter([
     {
@@ -66,6 +68,14 @@ import TeacherRequest from "../Pages/Dashboard/TeacherRequest/TeacherRequest";
         {
           path: "/Dashboard/TeacherRequest",
           element: <TeacherRequest></TeacherRequest>,
+        },
+        {
+          path: "/Dashboard/My-enroll-class",
+          element: <MyEnrolledClasses></MyEnrolledClasses>,
+        },
+        {
+          path: "/Dashboard/Enroll-Class-Details/:id",
+          element: <EnrollClassDetails></EnrollClassDetails>
         }
       ]
     }
