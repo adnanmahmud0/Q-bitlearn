@@ -13,6 +13,7 @@ import TeachOnEdurock from "../Pages/Teach/TeachOnEdurock";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import DashboardRoot from "../Pages/DashboardRoot";
 import Payment from "../Pages/Payment/Payment";
+import TeacherRequest from "../Pages/Dashboard/TeacherRequest/TeacherRequest";
 
   export const router = createBrowserRouter([
     {
@@ -61,6 +62,10 @@ import Payment from "../Pages/Payment/Payment";
         {
           path: "/Dashboard",
           element: <Dashboard></Dashboard>,
+        },
+        {
+          path: "/Dashboard/TeacherRequest",
+          element: <TeacherRequest></TeacherRequest>,
         }
       ]
     }
