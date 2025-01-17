@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { FiHome, FiUser, FiLogOut, FiBook, FiPlusCircle, FiList, FiDollarSign } from "react-icons/fi";
 import logo from "../../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { FaHome, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import { MdHouseSiding } from 'react-icons/md'; // Example for the house icon
 import { BsFillPersonFill } from 'react-icons/bs'; // Example for profile icon
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const SideBar = () => {
+    const { logOut } = useContext(AuthContext);
+    const handleLogOut =() => {
+        logOut();
+    }
     useEffect(() => {
         // Header toggle functionality
         const toggleOpen = document.getElementById("toggleOpen");
@@ -82,7 +87,7 @@ const SideBar = () => {
                                                 className="text-sm text-gray-800 cursor-pointer flex items-center p-2 rounded-md hover:bg-gray-100 dropdown-item transition duration-300 ease-in-out">
                                                 <FaHome className="w-4 h-4 mr-3" />
                                                 Home</a>
-                                            <a
+                                            <a onClick={handleLogOut}
                                                 className="text-sm text-gray-800 cursor-pointer flex items-center p-2 rounded-md hover:bg-gray-100 dropdown-item transition duration-300 ease-in-out">
                                                 <FaSignOutAlt className="w-4 h-4 mr-3" />
                                                 Logout</a>
@@ -135,11 +140,11 @@ const SideBar = () => {
                             </a>
                         </li>
                         <li>
-                            <a
+                            <Link to="/Dashboard/AddClass"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiPlusCircle className="mr-2" /> {/* React Icon */}
                                 <span>Add Class</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <Link to=""
@@ -175,15 +180,15 @@ const SideBar = () => {
                     <h6 className="text-blue-600 text-sm font-bold px-4">Actions</h6>
                     <ul className="mt-3 space-y-2">
                         <li>
-                            <a
+                            <Link to="Dashboard/My-Profile"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiUser className="mr-2" /> {/* React Icon */}
                                 <span>Profile</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                            <a onClick={handleLogOut}
+                                className="text-gray-800 text-sm flex items-center cursor-pointer hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiLogOut className="mr-2" /> {/* React Icon */}
                                 <span>Logout</span>
                             </a>

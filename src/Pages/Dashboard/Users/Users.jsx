@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 
 const Users = () => {
     const axiosSecure = useAxiousSecure();
-    const queryClient = useQueryClient();
+
 
     // Fetch users
     const { data, isLoading, error, refetch } = useQuery({
@@ -45,6 +45,7 @@ const Users = () => {
                             type="text"
                             placeholder="Search with email"
                             className="input input-bordered w-full max-w-xs mt-5"
+                            onChange={(e) => handleSearch(e.target.value)}
                         />
                     </div>
                     <div className="flex items-start">
@@ -63,13 +64,13 @@ const Users = () => {
                                     <tbody>
                                         {Array.isArray(data) && data.length > 0 ? (
                                             data.map((user) => (
-                                                <tr key={user.id}>
+                                                <tr key={user?.id}>
                                                     <td>
                                                         <div className="flex items-center gap-3">
                                                             <div className="avatar">
                                                                 <div className="mask mask-squircle h-12 w-12">
                                                                     <img
-                                                                        src={user.image}
+                                                                        src={user?.image}
                                                                         alt="User Avatar"
                                                                     />
                                                                 </div>

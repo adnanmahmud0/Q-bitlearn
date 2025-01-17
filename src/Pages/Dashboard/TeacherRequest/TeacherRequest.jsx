@@ -1,15 +1,18 @@
 import { FcApprove, FcDisapprove } from "react-icons/fc";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 
+
+
 const TeacherRequest = () => {
-    const { user } = useContext(AuthContext);
-    if(user){
-        const userId= user?._id;
-    }
+
     const axiosSecure = useAxiousSecure();
+    const { user } = useContext(AuthContext);
+
+    const email = user?.email;
+
     const { data: teacherRequests = [], refetch } = useQuery({
         queryKey: ["teacherreq"],
         queryFn: async () => {
@@ -18,9 +21,11 @@ const TeacherRequest = () => {
         },
     });
 
+    console.log(email);
+
     const handleApprove = async (id) => {
         await axiosSecure.patch(`/teacher/approve/${id}`);
-        await axiosSecure.put(`/users/${userId}`, { role: 2 });
+        await axiosSecure.put(`/teacherUsers?email=${email}`, { role: 2 });
         refetch();
     };
 
@@ -79,20 +84,11 @@ const TeacherRequest = () => {
                                                 <td>{teacher.status}</td>
                                                 <th>
                                                     <div>
-                                                        <button
-                                                            className="btn btn-ghost"
-                                                            onClick={() => handleApprove(teacher._id)}
-                                                            disabled={teacher.status === "Reject"}
-                                                        >
-                                                            <FcApprove className="size-7" />
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-ghost"
-                                                            onClick={() => handleDisapprove(teacher._id)}
-                                                            disabled={teacher.status === "Reject"}
-                                                        >
-                                                            <FcDisapprove className="size-7" />
-                                                        </button>
+
+                                                        <FcApprove className="size-7 cursor-pointer" onClick={() => handleApprove(teacher._id)} />
+
+                                                        <FcDisapprove className="size-7 cursor-pointer" hidden={teacher?.status === "Approved"} onClick={() => handleDisapprove(teacher._id)} />
+
                                                     </div>
                                                 </th>
 

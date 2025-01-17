@@ -17,6 +17,8 @@ import TeacherRequest from "../Pages/Dashboard/TeacherRequest/TeacherRequest";
 import MyEnrolledClasses from "../Pages/Dashboard/MyEnrolledClasses/MyEnrolledClasses";
 import EnrollClassDetails from "../Pages/Dashboard/MyEnrolledClasses/EnrollClassDetails";
 import Users from "../Pages/Dashboard/Users/Users";
+import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
+import AddClass from "../Pages/Dashboard/MyCLasses/AddClass";
 
   export const router = createBrowserRouter([
     {
@@ -82,6 +84,14 @@ import Users from "../Pages/Dashboard/Users/Users";
           path: "/Dashboard/Users",
           element: <Users></Users>,
         },
+        {
+          path: "/Dashboard/My-Profile",
+          element: <MyProfile></MyProfile>,
+        },
+        {
+          path: "/Dashboard/AddClass",
+          element: <AddClass></AddClass>
+        }
       ]
     }
   ]);
