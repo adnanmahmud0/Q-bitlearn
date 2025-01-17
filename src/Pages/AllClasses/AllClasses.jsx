@@ -1,19 +1,16 @@
-import React, { useContext, useState } from 'react';
-import useAxiousSecure from '../../Hooks/useAxiousSecure';
+import React, { useState } from 'react';
+import useAxiousSecure from '../Hooks/useAxiousSecure';
 import { useQuery } from '@tanstack/react-query';
-import { AuthContext } from '../../../Provider/AuthProvider';
 
-const MyClasses = () => {
-    const { user } = useContext(AuthContext);
+const AllClasses = () => {
     const axiosSecure = useAxiousSecure();
     const [currentPage, setCurrentPage] = useState(1); // State for current page
     const limit = 8; // Limit per page
 
-
     const { data: classesData = {}, isLoading, error, refetch } = useQuery({
         queryKey: ["classes", currentPage],
         queryFn: async () => {
-            const response = await axiosSecure.get(`/MyClasses?&email=${user.email}&page=${currentPage}&limit=${limit}`);
+            const response = await axiosSecure.get(`/adminClasses?page=${currentPage}&limit=${limit}`);
             return response.data;
         },
     });
@@ -21,13 +18,13 @@ const MyClasses = () => {
     const { classes = [], total } = classesData; // Destructuring response data
     const totalPages = Math.ceil(total / limit); // Calculate total pages
 
-    const handleUpdate = async (id) => {
-        
+    const handleApprove = async (id) => {
+        await axiosSecure.patch(`/adminClasses/approve/${id}`);
         refetch();
     };
 
-    const handleDelete = async (id) => {
-        axiosSecure.delete("")
+    const handleDisapprove = async (id) => {
+        await axiosSecure.patch(`/adminClasses/disapprove/${id}`);
         refetch();
     };
 
@@ -62,7 +59,6 @@ const MyClasses = () => {
                                         <th>Title and Description</th>
                                         <th>Email</th>
                                         <th>Category</th>
-                                        <th>Status</th>
                                         <th>Action</th>
                                         <th>Progress</th>
                                     </tr>
@@ -90,22 +86,20 @@ const MyClasses = () => {
                                             <td>{cls?.teacher?.email}</td>
                                             <td>{cls?.category}</td>
                                             <td>
-                                                <div>
-                                                    <p className=" btn-xs">{cls?.status}</p>
-                                                </div>
-                                            </td>
-                                            <td>
                                                 <div className="space-x-5 flex">
-                                                    <div >
-                                                        <button className="btn btn-outline btn-xs" onClick={() => handleUpdate(cls?._id)}>Update</button>
+                                                    <div disabled={cls?.status === "approved"} hidden={cls?.status === "rejected" || cls?.status === "pending"}  >
+                                                        <button className="btn btn-disabled btn-xs">Approved</button>
                                                     </div>
-                                                    <div>
-                                                        <button className="btn btn-outline btn-xs" onClick={() => handleDelete(cls?._id)}>Delete</button>
+                                                    <div hidden={cls?.status === "approved"} >
+                                                        <button className="btn btn-outline btn-xs" onClick={() => handleApprove(cls?._id)}>Approve</button>
+                                                    </div>
+                                                    <div hidden={cls?.status === "approved"}>
+                                                        <button className="btn btn-outline btn-xs" onClick={() => handleDisapprove(cls?._id)}>Reject</button>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button className="btn btn-sm">See Details</button>
+                                                <button className="btn btn-sm">See Progress</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -153,4 +147,4 @@ const MyClasses = () => {
     );
 };
 
-export default MyClasses;
+export default AllClasses;

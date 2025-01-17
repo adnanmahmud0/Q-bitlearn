@@ -103,8 +103,8 @@ const SideBar = () => {
                 </div>
             </header>
 
-            <div id="sidebar-collapse-menu" myStyle="height: calc(100vh - 72px)"
-                className="bg-white shadow-lg h-screen fixed py-6 px-4 top-[70px] left-0 overflow-auto z-[99] lg:min-w-[250px] lg:w-max max-lg:w-0 max-lg:invisible transition-all duration-500">
+            <div id="sidebar-collapse-menu" 
+                className="h-calc(100vh - 72px) bg-white shadow-lg h-screen fixed py-6 px-4 top-[70px] left-0 overflow-auto z-[99] lg:min-w-[250px] lg:w-max max-lg:w-0 max-lg:invisible transition-all duration-500">
                 <ul className="space-y-2">
                     <li>
                         <a
@@ -133,11 +133,11 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li>
-                            <a
+                            <Link to="/Dashboard/AllClasses"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiList className="mr-2" /> {/* React Icon */}
                                 <span>All Classes</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <Link to="/Dashboard/AddClass"
@@ -147,7 +147,7 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to=""
+                            <Link to="/Dashboard/MyClasses"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiBook className="mr-2" /> {/* React Icon */}
                                 <span>My Classes</span>
@@ -180,7 +180,7 @@ const SideBar = () => {
                     <h6 className="text-blue-600 text-sm font-bold px-4">Actions</h6>
                     <ul className="mt-3 space-y-2">
                         <li>
-                            <Link to="Dashboard/My-Profile"
+                            <Link to="/Dashboard/My-Profile"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiUser className="mr-2" /> {/* React Icon */}
                                 <span>Profile</span>

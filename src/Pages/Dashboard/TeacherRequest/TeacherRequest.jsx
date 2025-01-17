@@ -84,14 +84,10 @@ const TeacherRequest = () => {
                                                 <td>{teacher.status}</td>
                                                 <th>
                                                     <div>
-
                                                         <FcApprove className="size-7 cursor-pointer" onClick={() => handleApprove(teacher._id)} />
-
                                                         <FcDisapprove className="size-7 cursor-pointer" hidden={teacher?.status === "Approved"} onClick={() => handleDisapprove(teacher._id)} />
-
                                                     </div>
                                                 </th>
-
                                             </tr>
                                         ))}
                                     </tbody>

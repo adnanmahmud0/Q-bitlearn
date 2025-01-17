@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Provider/AuthProvider';
-import axios from 'axios';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
 
 const AddClass = () => {

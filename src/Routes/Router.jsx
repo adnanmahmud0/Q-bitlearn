@@ -19,6 +19,8 @@ import EnrollClassDetails from "../Pages/Dashboard/MyEnrolledClasses/EnrollClass
 import Users from "../Pages/Dashboard/Users/Users";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import AddClass from "../Pages/Dashboard/MyCLasses/AddClass";
+import AllClasses from "../Pages/AllClasses/AllClasses";
+import MyClasses from "../Pages/Dashboard/MyCLasses/MyClasses";
 
   export const router = createBrowserRouter([
     {
@@ -91,6 +93,14 @@ import AddClass from "../Pages/Dashboard/MyCLasses/AddClass";
         {
           path: "/Dashboard/AddClass",
           element: <AddClass></AddClass>
+        },
+        {
+          path: "/Dashboard/AllClasses",
+          element: <AllClasses></AllClasses>,
+        },
+        {
+          path: "/Dashboard/MyClasses",
+          element: <MyClasses></MyClasses>,
         }
       ]
     }
