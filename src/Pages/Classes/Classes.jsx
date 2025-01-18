@@ -77,11 +77,11 @@ const Classes = () => {
                     </button>
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
                 {currentClasses.map((classItem, index) => (
-                    <div key={index} className="bg-white flex flex-col overflow-hidden hover:shadow-md transition-all relative">
+                    <div key={index} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
                         <div className="w-full">
-                            <img src={classItem.image} alt={classItem.name} className="w-full object-cover object-top aspect-[230/150]" />
+                            <img src={classItem.image} alt={classItem.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                         </div>
                         <div className="absolute right-2 top-2">
                             <p className="bg-ALPHA text-white text-xs rounded-full p-2">{classItem.totalEnrollment} Enrolled</p>

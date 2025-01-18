@@ -24,9 +24,11 @@
     "react-modal": "^3.16.3",
     "react-rating": "^2.0.5",
     "react-rating-stars-component": "^2.2.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.3",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "swiper": "^11.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

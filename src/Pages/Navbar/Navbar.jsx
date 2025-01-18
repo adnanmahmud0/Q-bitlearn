@@ -41,15 +41,15 @@ const Navbar = () => {
                             </div>
                             <ul
                                 tabIndex={0}
-                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50 font-semibold">
                                 {link}
                             </ul>
                         </div>
-                        <img src={logo} alt="" className="w-6" />
-                        <a className="text-xl">edurock</a>
+                        <img src={logo} alt="" className="w-6 " />
+                        <a className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></a>
                     </div>
                     <div className="navbar-center hidden lg:flex">
-                        <ul className="menu menu-horizontal px-1">
+                        <ul className="menu menu-horizontal px-1 font-semibold">
                             {link}
                         </ul>
                     </div>
@@ -67,7 +67,7 @@ const Navbar = () => {
                                         </div>
                                         <ul
                                             tabIndex={0}
-                                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 font-semibold shadow">
                                             <li>
                                                 <p className="bg-base-300">
                                                     {user.displayName}
