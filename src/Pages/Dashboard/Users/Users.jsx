@@ -64,7 +64,7 @@ const Users = () => {
                                     <tbody>
                                         {Array.isArray(data) && data.length > 0 ? (
                                             data.map((user) => (
-                                                <tr key={user?.id}>
+                                                <tr key={user?._id}>
                                                     <td>
                                                         <div className="flex items-center gap-3">
                                                             <div className="avatar">

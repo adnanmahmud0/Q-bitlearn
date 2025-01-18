@@ -25,6 +25,7 @@ const Payment = () => {
         const paymentInfo = { username, card_number, exp, cvv, email, classId: id };
         console.log(paymentInfo);
         axiosSecure.post('/payment', paymentInfo);
+        axiosSecure.patch(`/class/${id}`);
     };
 
     return (

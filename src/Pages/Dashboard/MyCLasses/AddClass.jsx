@@ -2,37 +2,55 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
-
+import axios from "axios";
 const AddClass = () => {
     const axiosSecure = useAxiousSecure()
     const { user } = useContext(AuthContext);
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => {
+    const onSubmit = async (data) => {
         const status = 'pending';
         const { title, price, description, image } = data;
         const { displayName, email } = user;
+        const imageFile = new FormData();
+        imageFile.append('image', data.image[0]);
 
-        // Structuring the data to match the required format
-        const classInfo = {
-            title,
-            teacher: {
-                name: displayName,
-                email: email,
-            },
-            image,
-            price: { "$numberInt": price }, // Convert price to the required format
-            description,
-            status,
-            totalEnrollment: { "$numberInt": "0" }, // Default enrollment is 0, or can be set based on your requirements
-            category: "General" // You can modify this based on the class category you are adding
-        };
-
-        // Sending the data to the backend
-        axiosSecure.post("/class", classInfo)
-            .then(res => {
-                console.log(res.data);
+        try {
+            // Await the image upload response
+            const imageUploadResponse = await axios.post(image_hosting_api, imageFile, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                },
             });
+
+            // Ensure the image upload response contains the expected data
+            const image = imageUploadResponse.data.data.display_url;
+
+            // Structuring the data to match the required format
+            const classInfo = {
+                title,
+                teacher: {
+                    name: displayName,
+                    email: email,
+                },
+                image,
+                price: price, // Use price directly, not as an object
+                description,
+                status,
+                totalEnrollment: 0, // Default enrollment is 0
+            };
+            
+
+            // Sending the data to the backend
+            const response = await axiosSecure.post("/class", classInfo);
+            console.log(response.data);
+
+        } catch (error) {
+            console.error('Error during class creation:', error);
+        }
     };
+
 
     return (
         <>
@@ -130,9 +148,10 @@ const AddClass = () => {
                                                 <input
                                                     name="image"
                                                     {...register("image", { required: true })}
-                                                    type="text"
-                                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-                                                    placeholder="Enter image URL"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    id="profile-picture"
+                                                    className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 pl-2 pr-8 py-3 outline-none file:cursor-pointer file:border-0 file:bg-transparent file:text-gray-800 file:mr-4"
                                                 />
                                                 {errors.image && <span className="text-red-600 text-xs block mb-2">Image is required</span>}
                                             </div>

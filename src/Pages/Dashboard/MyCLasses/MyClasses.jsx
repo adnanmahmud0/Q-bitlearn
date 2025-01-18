@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../../Provider/AuthProvider';
-
+import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 const MyClasses = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxiousSecure();
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1); // State for current page
     const limit = 8; // Limit per page
 
@@ -22,12 +24,11 @@ const MyClasses = () => {
     const totalPages = Math.ceil(total / limit); // Calculate total pages
 
     const handleUpdate = async (id) => {
-        
-        refetch();
+        navigate(`/Dashboard/MyClassUpdate/${id}`);
     };
 
     const handleDelete = async (id) => {
-        axiosSecure.delete("")
+        await axiosSecure.delete(`/deleteMyClasses/${id}`);
         refetch();
     };
 
@@ -41,6 +42,10 @@ const MyClasses = () => {
                 <p className="text-red-500">Failed to load classes: {error.message}</p>
             </div>
         );
+    }
+
+    const classDetealsHandeler = (id) =>{
+        navigate(`/Dashboard/MyClassDetails/${id}`);
     }
 
     return (
@@ -60,8 +65,8 @@ const MyClasses = () => {
                                 <thead>
                                     <tr>
                                         <th>Title and Description</th>
+                                        <th>Prise</th>
                                         <th>Email</th>
-                                        <th>Category</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Progress</th>
@@ -87,8 +92,8 @@ const MyClasses = () => {
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>{cls?.price}৳</td>
                                             <td>{cls?.teacher?.email}</td>
-                                            <td>{cls?.category}</td>
                                             <td>
                                                 <div>
                                                     <p className=" btn-xs">{cls?.status}</p>
@@ -105,7 +110,7 @@ const MyClasses = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <button className="btn btn-sm">See Details</button>
+                                                <button onClick={() => classDetealsHandeler(cls?._id)} className="btn btn-sm " disabled={cls?.status === "reject" || cls?.status === "pending"}>See Details</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -154,3 +159,5 @@ const MyClasses = () => {
 };
 
 export default MyClasses;
+
+

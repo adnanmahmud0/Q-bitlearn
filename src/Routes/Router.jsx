@@ -21,6 +21,9 @@ import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import AddClass from "../Pages/Dashboard/MyCLasses/AddClass";
 import AllClasses from "../Pages/AllClasses/AllClasses";
 import MyClasses from "../Pages/Dashboard/MyCLasses/MyClasses";
+import MyCLassUpdate from "../Pages/Dashboard/MyCLasses/MyCLassUpdate";
+import MyClassDetails from "../Pages/Dashboard/MyCLasses/MyClassDetails";
+
 
   export const router = createBrowserRouter([
     {
@@ -101,6 +104,14 @@ import MyClasses from "../Pages/Dashboard/MyCLasses/MyClasses";
         {
           path: "/Dashboard/MyClasses",
           element: <MyClasses></MyClasses>,
+        },
+        {
+          path: "/Dashboard/MyClassUpdate/:id",
+          element: <MyCLassUpdate></MyCLassUpdate>,
+        },
+        {
+          path: "/Dashboard/MyClassDetails/:id",
+          element: <MyClassDetails></MyClassDetails>,
         }
       ]
     }

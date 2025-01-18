@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import useAxiousSecure from '../Hooks/useAxiousSecure';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 const AllClasses = () => {
+    const navigate = useNavigate();
     const axiosSecure = useAxiousSecure();
     const [currentPage, setCurrentPage] = useState(1); // State for current page
     const limit = 8; // Limit per page
@@ -38,6 +40,10 @@ const AllClasses = () => {
                 <p className="text-red-500">Failed to load classes: {error.message}</p>
             </div>
         );
+    }
+
+    const classDetealsHandeler = (id) =>{
+        navigate(`/Dashboard/MyClassDetails/${id}`);
     }
 
     return (
@@ -99,7 +105,7 @@ const AllClasses = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <button className="btn btn-sm">See Progress</button>
+                                                <button onClick={() => classDetealsHandeler(cls?._id)} className="btn btn-sm">See Progress</button>
                                             </td>
                                         </tr>
                                     ))}

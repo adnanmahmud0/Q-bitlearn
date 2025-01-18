@@ -6,21 +6,22 @@ import { useParams } from "react-router-dom";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { useQuery } from "@tanstack/react-query";
 
-
 const EnrollClassDetails = () => {
     const { user } = useContext(AuthContext);
-    console.log(user);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [description, setDescription] = useState("");
-    const { id } = useParams();
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [assignmentLinks, setAssignmentLinks] = useState({}); // Store inputs for each assignment by ID
+    const { id } = useParams(); // course id from URL
 
     const photoURL = user?.photoURL;
     const displayName = user?.displayName;
     const userEmail = user?.email;
 
     const axiosSecure = useAxiousSecure();
-    const { data } = useQuery({
+
+    const { data: teacherData, isLoading, error } = useQuery({
         queryKey: ["teacher", id],
         queryFn: async () => {
             const { data } = await axiosSecure.get(`/class/${id}`);
@@ -28,7 +29,18 @@ const EnrollClassDetails = () => {
         },
     });
 
-    const teacherEmail = data?.teacher?.email;
+    const { data: assignmentData } = useQuery({
+        queryKey: ["assignment", id],
+        queryFn: async () => {
+            const { data } = await axiosSecure.get(`/assignment/${id}`);
+            return data;
+        },
+    });
+
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Error loading data</p>;
+
+    const teacherEmail = teacherData?.teacher?.email;
 
     const handleRatingChange = (newRating) => {
         setRating(newRating);
@@ -36,6 +48,32 @@ const EnrollClassDetails = () => {
 
     const handleModalToggle = () => {
         setIsModalOpen(!isModalOpen);
+    };
+
+    // Handle assignment submission
+    const handleSubmitAssignment = (assignmentId) => {
+        // Get the link for the current assignment from state
+        const assignmentLink = assignmentLinks[assignmentId];
+
+        axiosSecure.post('/submit-assignment', {
+            assignmentId,
+            courseId: id, 
+            assignmentLink // Pass the link entered for this assignment
+        })
+        .then(() => {
+            setIsSubmitted(true); 
+        })
+        .catch((err) => {
+            console.error("Error submitting assignment:", err);
+        });
+    };
+
+    // Handle input change for each assignment
+    const handleInputChange = (e, assignmentId) => {
+        setAssignmentLinks({
+            ...assignmentLinks,
+            [assignmentId]: e.target.value, // Store the input value for this specific assignment
+        });
     };
 
     const handleSend = () => {
@@ -49,7 +87,6 @@ const EnrollClassDetails = () => {
         };
         axiosSecure.post('/rating', ratingData);
         setIsModalOpen(false);
-        
     };
 
     return (
@@ -58,7 +95,6 @@ const EnrollClassDetails = () => {
                 <div>
                     <div className="flex items-start">
                         <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8"></nav>
-
                         <section className="main-content w-full overflow-auto p-6">
                             <div className="flex justify-between">
                                 <button className="btn" onClick={handleModalToggle}>
@@ -75,37 +111,49 @@ const EnrollClassDetails = () => {
                                             <th>Deadline</th>
                                             <th>Status</th>
                                             <th>Your Assignment Link</th>
+                                            <th>Total Submitted</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* row 1 */}
-                                        <tr>
-                                            <td>
-                                                <div className="flex items-center gap-3">
-                                                    <MdAssignment className="size-8" />
-                                                    <div>
-                                                        <div className="font-bold">Hart Hagerty</div>
-                                                        <div className="text-sm opacity-50">United States</div>
+                                        {assignmentData?.map((assignment) => (
+                                            <tr key={assignment._id}>
+                                                <td>
+                                                    <div className="flex items-center gap-3">
+                                                        <MdAssignment className="size-8" />
+                                                        <div>
+                                                            <div className="font-bold">{assignment.title}</div>
+                                                            <div className="text-sm opacity-50">{assignment.description}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p>12-05-2025</p>
-                                            </td>
-                                            <td>
-                                                <p>Not Submitted</p>
-                                            </td>
-                                            <td>
-                                                <form>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Type here"
-                                                        className="input input-bordered input-sm w-full max-w-xs"
-                                                    />
-                                                    <button className="btn btn-sm ml-5">Small</button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <p>{assignment.deadline}</p>
+                                                </td>
+                                                <td>
+                                                    <p>Not Submitted</p>
+                                                </td>
+                                                <td>
+                                                    <form>
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Type here"
+                                                            className="input input-bordered input-sm w-full max-w-xs"
+                                                            value={assignmentLinks[assignment._id] || ""} // Bind input to the corresponding assignment's value
+                                                            onChange={(e) => handleInputChange(e, assignment._id)} // Update the value for the correct assignment
+                                                        />
+                                                        <button 
+                                                            type="button"
+                                                            className="btn btn-sm ml-5"
+                                                            onClick={() => handleSubmitAssignment(assignment._id)} // Submit assignment on click
+                                                        >
+                                                            Submit
+                                                        </button>
+                                                    </form>
+                                                </td>
+
+                                                <td>2</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
