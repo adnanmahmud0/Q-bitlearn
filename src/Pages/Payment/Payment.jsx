@@ -1,159 +1,108 @@
-import { useContext } from 'react';
-import { FaCreditCard } from 'react-icons/fa';
-import { AuthContext } from '../../Provider/AuthProvider';
-import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import useAxiousSecure from '../Hooks/useAxiousSecure';
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
-const Payment = () => {
-    const { id } = useParams();
-    const { user } = useContext(AuthContext);
-    const axiosSecure = useAxiousSecure();
-    const { data } = useQuery({
-        queryKey: ["pay", id],
-        queryFn: async () => {
-            const { data } = await axiosSecure.get(`/class/${id}`);
+const Classes = () => {
+    const [currentPage, setCurrentPage] = useState(1); // Tracks the current page
+    const itemsPerPage = 10; // Matches the backend limit
+    const axiosPublic = useAxiosPublic();
+
+    // Fetch classes with TanStack Query
+    const { data, isLoading, error, isFetching } = useQuery(
+        ["classes", currentPage], // Unique query key including currentPage
+        async () => {
+            const { data } = await axiosPublic.get(`/classes?page=${currentPage}&limit=${itemsPerPage}`);
             return data;
         },
-    });
+        {
+            keepPreviousData: true, // Keeps previous data while fetching new page data
+            staleTime: 5000, // Data is fresh for 5 seconds
+        }
+    );
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = (formData) => {
-        const { username, card_number, exp, cvv } = formData;
-        const { email } = user;
-        const paymentInfo = { username, card_number, exp, cvv, email, classId: id };
-        console.log(paymentInfo);
-        axiosSecure.post('/payment', paymentInfo);
-        axiosSecure.patch(`/class/${id}`);
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
+    // If still loading the data
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    // If an error occurs during fetching
+    if (error) {
+        return <div>Error: {error.message || "Failed to load classes"}</div>;
+    }
+
+    const { data: classes, currentPage: serverPage, totalPages, totalItems } = data;
+
+    // Calculate the range of items being shown
+    const startIndex = (serverPage - 1) * itemsPerPage + 1;
+    const endIndex = Math.min(serverPage * itemsPerPage, totalItems);
+
     return (
-        <div className="bg-white p-4">
-            <div className="md:max-w-5xl max-w-xl mx-auto">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 max-md:order-1">
-                        <h2 className="text-3xl font-extrabold text-gray-800">Make a payment</h2>
-                        <p className="text-gray-800 text-sm mt-4">
-                            Complete your transaction swiftly and securely with our easy-to-use payment process.
-                        </p>
-
-                        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 max-w-lg">
-                            <div className="grid gap-6">
-                                {/* Cardholder Name */}
-                                <div>
-                                    <label className="block text-gray-800 font-medium mb-2">
-                                        Cardholder's Name <span className="text-red-600">*</span>
-                                    </label>
-                                    <input
-                                        {...register("username", { required: "Cardholder's name is required" })}
-                                        type="text"
-                                        placeholder="Enter full name as on the card"
-                                        className="px-4 py-3.5 bg-gray-100 text-gray-800 w-full text-sm border rounded-md focus:border-purple-500 focus:bg-transparent outline-none"
-                                    />
-                                    {errors.username && <span className="text-red-600 text-xs block mt-1">{errors.username.message}</span>}
-                                </div>
-
-                                {/* Card Number */}
-                                <div>
-                                    <label className="block text-gray-800 font-medium mb-2">
-                                        Card Number <span className="text-red-600">*</span>
-                                    </label>
-                                    <div className="flex bg-gray-100 border rounded-md focus-within:border-purple-500 focus-within:bg-transparent overflow-hidden">
-                                        <FaCreditCard className="w-6 ml-3 mt-4 text-gray-800" />
-                                        <input
-                                            {...register("card_number", {
-                                                required: "Card number is required",
-                                                pattern: {
-                                                    value: /^\d{16}$/,
-                                                    message: "Card number must be 16 digits",
-                                                },
-                                            })}
-                                            type="text"
-                                            placeholder="1234 5678 1234 5678"
-                                            maxLength="16"
-                                            className="px-4 py-3.5 text-gray-800 w-full text-sm outline-none bg-transparent"
-                                        />
-                                    </div>
-                                    {errors.card_number && <span className="text-red-600 text-xs block mt-1">{errors.card_number.message}</span>}
-                                </div>
-
-                                {/* Expiration Date and CVV */}
-                                <div className="grid grid-cols-2 gap-4">
-                                    {/* Expiration Date */}
-                                    <div>
-                                        <label className="block text-gray-800 font-medium mb-2">
-                                            Expiration Date (MM/YY) <span className="text-red-600">*</span>
-                                        </label>
-                                        <input
-                                            {...register("exp", {
-                                                required: "Expiration date is required",
-                                                pattern: {
-                                                    value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                                                    message: "Use MM/YY format (e.g., 03/25)",
-                                                },
-                                            })}
-                                            type="text"
-                                            placeholder="MM/YY"
-                                            className="px-4 py-3.5 bg-gray-100 text-gray-800 w-full text-sm border rounded-md focus:border-purple-500 focus:bg-transparent outline-none"
-                                        />
-                                        {errors.exp && <span className="text-red-600 text-xs block mt-1">{errors.exp.message}</span>}
-                                    </div>
-
-                                    {/* CVV */}
-                                    <div>
-                                        <label className="block text-gray-800 font-medium mb-2">
-                                            CVV <span className="text-red-600">*</span>
-                                        </label>
-                                        <input
-                                            {...register("cvv", {
-                                                required: "CVV is required",
-                                                pattern: {
-                                                    value: /^\d{3}$/,
-                                                    message: "CVV must be 3 digits",
-                                                },
-                                            })}
-                                            type="text"
-                                            placeholder="123"
-                                            maxLength="3"
-                                            className="px-4 py-3.5 bg-gray-100 text-gray-800 w-full text-sm border rounded-md focus:border-purple-500 focus:bg-transparent outline-none"
-                                        />
-                                        {errors.cvv && <span className="text-red-600 text-xs block mt-1">{errors.cvv.message}</span>}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="mt-8 w-40 py-3.5 text-sm bg-purple-500 text-white rounded-md hover:bg-purple-600 tracking-wide"
-                            >
-                                Pay
-                            </button>
-                        </form>
+        <div className="p-4 mx-auto max-w-7xl">
+            <div className="flex justify-between items-center border p-5 mb-5 rounded-xl shadow">
+                <p className="text-sm text-gray-600">
+                    Showing {startIndex}-{endIndex} of {totalItems}
+                </p>
+                {/* Pagination Controls */}
+                <div className="flex justify-center">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-l-md"
+                    >
+                        Previous
+                    </button>
+                    <div className="flex items-center justify-center px-4">
+                        <span>Page {currentPage} of {totalPages}</span>
                     </div>
-
-                    <div className="bg-gray-100 p-6 rounded-md">
-                        <h2 className="text-3xl font-bold text-gray-800">৳{data?.price}</h2>
-
-                        <ul className="text-gray-800 mt-8 space-y-3">
-                            <li className="flex flex-wrap gap-4 text-sm">
-                                Course Amount <span className="ml-auto font-bold">৳{data?.price}</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4 text-sm">
-                                Advisor Amount <span className="ml-auto font-bold">৳0.00</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4 text-sm">
-                                Tax <span className="ml-auto font-bold">৳0.00</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4 text-sm font-bold border-t-2 pt-4">
-                                Total <span className="ml-auto">৳{data?.price}</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-r-md"
+                    >
+                        Next
+                    </button>
                 </div>
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
+                {classes.map((classItem) => (
+                    <div key={classItem?._id} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+                        <div className="w-full">
+                            <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
+                        </div>
+                        <div className="absolute right-2 top-2">
+                            <p className="bg-ALPHA text-white text-xs rounded-full p-2">{classItem?.totalEnrollment} Enrolled</p>
+                        </div>
+                        <div className="p-2 flex-1 flex flex-col">
+                            <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{classItem?.title}</h5>
+                            <div className="flex-1">
+                                <p className="mt-1 text-gray-500 truncate">{classItem?.description}</p>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex flex-wrap justify-between gap-2 mt-2">
+                                        <div className="flex gap-2">
+                                            <h6 className="text-sm sm:text-base font-bold text-gray-800">${classItem?.price}</h6>
+                                        </div>
+                                    </div>
+                                    <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem?.teacher.name}</p>
+                                </div>
+                            </div>
+                            <Link to={`/Class-Details/${classItem?._id}`} className="flex items-center gap-2 mt-4">
+                                <button type="button" className="text-sm px-2 min-h-[36px] w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">
+                                    Enroll
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            {isFetching && <div>Fetching new page...</div>} {/* Show indicator while loading */}
         </div>
     );
 };
 
-export default Payment;
+export default Classes;

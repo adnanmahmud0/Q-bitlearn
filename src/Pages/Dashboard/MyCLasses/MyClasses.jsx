@@ -16,7 +16,7 @@ const MyClasses = () => {
         queryKey: ["classes", currentPage],
         queryFn: async () => {
             const response = await axiosSecure.get(`/MyClasses?&email=${user.email}&page=${currentPage}&limit=${limit}`);
-            return response.data;
+            return response?.data;
         },
     });
 

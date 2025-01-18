@@ -17,7 +17,7 @@ const Users = () => {
     // Mutation to update user role
     const makeAdminMutation = useMutation({
         mutationFn: async (userId) => {
-            await axiosSecure.put(`/users/${userId}`, { role: 1 });
+            await axiosSecure.put(`/users/${userId}`, { role: "Admin" });
         },
         onSuccess: () => {
             refetch(); // Refetch users after update
@@ -89,9 +89,9 @@ const Users = () => {
                                                         <button
                                                             onClick={() => handleMakeAdmin(user._id)}
                                                             className="btn"
-                                                            disabled={user.role === 1}
+                                                            disabled={user.role === "Admin"}
                                                         >
-                                                            {user.role === 1 ? "Admin" : "Make Admin"}
+                                                            {user.role === "Admin" ? "Admin" : "Make Admin"}
                                                         </button>
                                                     </th>
                                                 </tr>
