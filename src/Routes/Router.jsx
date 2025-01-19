@@ -23,6 +23,9 @@ import AllClasses from "../Pages/AllClasses/AllClasses";
 import MyClasses from "../Pages/Dashboard/MyCLasses/MyClasses";
 import MyCLassUpdate from "../Pages/Dashboard/MyCLasses/MyCLassUpdate";
 import MyClassDetails from "../Pages/Dashboard/MyCLasses/MyClassDetails";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
 
 
   export const router = createBrowserRouter([
@@ -53,21 +56,21 @@ import MyClassDetails from "../Pages/Dashboard/MyCLasses/MyClassDetails";
         },
         {
           path: "/Class-Details/:id",
-          element: <ClassDetails></ClassDetails>,
+          element: <PrivateRoute><ClassDetails></ClassDetails></PrivateRoute>,
         },
         {
           path: "/Teach-On-Edurock",
-          element: <TeachOnEdurock></TeachOnEdurock>,
+          element: <PrivateRoute><TeachOnEdurock></TeachOnEdurock></PrivateRoute>,
         },
         {
           path: "/Payment/:id",
-          element: <Payment></Payment>,
+          element: <PrivateRoute><Payment></Payment></PrivateRoute>,
         }
       ]
     },
     {
       path: "/Dashboard",
-      element: <DashboardRoot></DashboardRoot>,
+      element: <PrivateRoute><DashboardRoot></DashboardRoot></PrivateRoute>,
       children:[
         {
           path: "/Dashboard",
@@ -75,15 +78,15 @@ import MyClassDetails from "../Pages/Dashboard/MyCLasses/MyClassDetails";
         },
         {
           path: "/Dashboard/TeacherRequest",
-          element: <TeacherRequest></TeacherRequest>,
+          element: <AdminRoute><TeacherRequest></TeacherRequest></AdminRoute>,
         },
         {
           path: "/Dashboard/My-enroll-class",
-          element: <MyEnrolledClasses></MyEnrolledClasses>,
+          element: <UserRoute><MyEnrolledClasses></MyEnrolledClasses></UserRoute>,
         },
         {
           path: "/Dashboard/Enroll-Class-Details/:id",
-          element: <EnrollClassDetails></EnrollClassDetails>
+          element: <EnrollClassDetails></EnrollClassDetails>,
         },
         {
           path: "/Dashboard/Users",

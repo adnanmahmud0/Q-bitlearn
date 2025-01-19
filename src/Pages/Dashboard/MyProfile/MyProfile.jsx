@@ -8,11 +8,12 @@ const MyProfile = () => {
     const axiosSecure = useAxiousSecure();
     const { user } = useContext(AuthContext);
 
-    const { data, isError, error, isLoading } = useQuery({
-        queryKey: ["userinfo"],
+    const email = user?.email;
+    const { data } = useQuery({
+        queryKey: ["classes", email],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/user?email=${user?.email}`);
-            return data;
+            const res = await axiosSecure.get(`/user?email=${email}`);
+            return res.data;
         },
     });
 
@@ -20,18 +21,6 @@ const MyProfile = () => {
         return <div>Please log in to view your profile.</div>;
     }
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error: {error.message}</div>;
-
-    const role = data?.role;
-    let userRole;
-    if (role === 0) {
-        userRole = "Student";
-    } else if (role === 1) {
-        userRole = "Admin";
-    } else if (role === 2) {
-        userRole = "Teacher";
-    }
 
     return (
         <div className="relative pt-[70px] h-screen">
@@ -46,7 +35,7 @@ const MyProfile = () => {
                             <div>
                                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">Name: {user?.displayName}</h3>
                                 <p className="mt-4 text-sm text-gray-800 leading-relaxed">
-                                    Role: {userRole}
+                                    Role: {data}
                                 </p>
                                 <div className="mt-8 text-left">
                                     <h4 className="text-base">Phone Number: {user?.phoneNumber || "N/A"}</h4>

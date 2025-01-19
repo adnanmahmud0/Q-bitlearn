@@ -196,25 +196,25 @@ const Home = () => {
                         <SwiperSlide key={index}>
                             <div className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
                                 <div className="w-full">
-                                    <img src={classItem.image} alt={classItem.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
+                                    <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                                 </div>
                                 <div className="absolute right-2 top-2">
-                                    <p className="bg-[#592adf] text-white text-xs rounded-full p-2">{classItem.totalEnrollment} Enrolled</p>
+                                    <p className="bg-[#592adf] text-white text-xs rounded-full p-2">{classItem?.totalEnrollment} Enrolled</p>
                                 </div>
                                 <div className="p-2 flex-1 flex flex-col">
-                                    <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{classItem.title}</h5>
+                                    <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{classItem?.title}</h5>
                                     <div className="flex-1">
-                                        <p className="mt-1 text-gray-500 truncate">{classItem.description}</p>
+                                        <p className="mt-1 text-gray-500 truncate">{classItem?.description}</p>
                                         <div className="flex justify-between items-center">
                                             <div className="flex flex-wrap justify-between gap-2 mt-2">
                                                 <div className="flex gap-2">
-                                                    <h6 className="text-sm sm:text-base font-bold text-[#f2277e]">${classItem.price}</h6>
+                                                    <h6 className="text-sm sm:text-base font-bold text-[#f2277e]">${classItem?.price}</h6>
                                                 </div>
                                             </div>
-                                            <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem.teacher.name}</p>
+                                            <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem?.teacher?.name}</p>
                                         </div>
                                     </div>
-                                    <Link to={`/Class-Details/${classItem._id}`} className="flex items-center gap-2 mt-4">
+                                    <Link to={`/Class-Details/${classItem?._id}`} className="flex items-center gap-2 mt-4">
                                         <button type="button" className="text-sm px-2 min-h-[36px] w-full bg-[#ffbb01] hover:bg-[#ffbb01] text-white tracking-wide ml-auto outline-none border-none rounded">
                                             Enroll
                                         </button>
@@ -274,21 +274,21 @@ const Home = () => {
                                 <SwiperSlide key={index} className='pl-10'>
                                     <div className="max-w-[360px] h-auto py-5 pl-14 pr-4 bg-white border-2 rounded-3xl relative">
                                         <img
-                                            src={testimonial.photoURL}
+                                            src={testimonial?.photoURL}
                                             className="w-20 h-20 rounded-full absolute -left-10 top-0 bottom-0 my-auto border-2 border-gray-300"
                                         />
                                         <div>
-                                            <h6 className="text-black text-[15px] font-bold">{testimonial.displayName}</h6> {/* Name in color */}
-                                            <p className="mt-1 text-xs text-gray-500">{testimonial.userEmail}</p> {/* Email in color */}
+                                            <h6 className="text-black text-[15px] font-bold">{testimonial?.displayName}</h6> {/* Name in color */}
+                                            <p className="mt-1 text-xs text-gray-500">{testimonial?.userEmail}</p> {/* Email in color */}
                                         </div>
                                         <div className="mt-4">
-                                            <p className="text-gray-500 text-sm leading-relaxed">{testimonial.description}</p> {/* Description in color */}
+                                            <p className="text-gray-500 text-sm leading-relaxed">{testimonial?.description}</p> {/* Description in color */}
                                         </div>
                                         <div className="flex space-x-1 mt-4">
                                             {[...Array(5)].map((_, i) => (
                                                 <FaStar
                                                     key={i}
-                                                    className={`w-4 ${i < testimonial.rating ? 'fill-[#592adf]' : 'fill-[#CED5D8]'}`} // Rating color
+                                                    className={`w-4 ${i < testimonial?.rating ? 'fill-[#592adf]' : 'fill-[#CED5D8]'}`} // Rating color
                                                 />
                                             ))}
                                         </div>

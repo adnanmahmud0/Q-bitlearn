@@ -38,15 +38,6 @@ const MyClassDetails = () => {
         },
     });
 
-    // const { count } = useQuery({
-    //     queryKey: ["assignment"],
-    //     queryFn: async () => {
-    //         const { count } = await axiosSecure.get(`/total-submit-assignment/${id}`);
-    //         return count;
-    //     },
-    // });
-
-    // console.log(count)
 
     const handleAddAssignment = () => {
         axiosSecure.post(`/assignment`, assignment);

@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
+import useAxiousSecure from '../Hooks/useAxiousSecure';
 
 const TeachOnEdurock = () => {
+    const axiosSecure = useAxiousSecure();
     const {user} = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => {
@@ -11,7 +13,7 @@ const TeachOnEdurock = () => {
         const {experience, category, title} = data;
         const {displayName, email, photoURL} = user;
         const teacherInfo = {displayName, photoURL, email, experience, title, category, status};
-        axios.post("http://localhost:5000/teacher", teacherInfo)
+        axiosSecure.post("/teacher", teacherInfo)
         .then(res =>{
             console.log(res.data);
         });

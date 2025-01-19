@@ -16,7 +16,7 @@ const Navbar = () => {
         <>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Classes">All Classes</Link></li>
-            <li><Link to="/Teach-On-Edurock">Teach on edurock</Link></li>
+            <li><Link to="/Teach-On-Edurock">Teach on Q-bitlearn</Link></li>
         </>
 
     return (

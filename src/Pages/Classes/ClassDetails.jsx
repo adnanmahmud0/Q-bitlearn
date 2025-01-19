@@ -1,15 +1,15 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import useAxiousSecure from "../Hooks/useAxiousSecure";
 
 const ClassDetails = () => {
     const { id } = useParams();
     const [data, setData] = useState(null);
-
+    const axiosSecure = useAxiousSecure();
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/class/${id}`);
+                const response = await axiosSecure.get(`/class/${id}`);
                 setData(response.data);  // Store the actual data
             } catch (error) {
                 console.error('Error fetching data:', error);
