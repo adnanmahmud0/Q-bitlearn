@@ -10,7 +10,7 @@ const Dashboard = () => {
 
                         <section className="main-content w-full overflow-auto p-6">
                             <div className="overflow-x-auto">
-
+                                
                             </div>
                         </section>
                     </div>

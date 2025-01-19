@@ -69,15 +69,15 @@ const SideBar = () => {
         };
     }, []);
 
-    
+
     return (
         <>
             <header className='flex shadow-md py-1 px-4 sm:px-7 bg-white min-h-[70px] tracking-wide z-[110] fixed top-0 w-full'>
                 <div className='flex flex-wrap items-center justify-between gap-4 w-full relative'>
-                    <a className='flex items-center'>
+                    <Link to="/" className='flex items-center'>
                         <img src={logo} alt="logo" className='w-10' />
-                        <a className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></a>
-                    </a>
+                        <p className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></p>
+                    </Link>
 
                     <div id="collapseMenu"
                         className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
@@ -132,69 +132,64 @@ const SideBar = () => {
                 </ul>
 
                 <div className="mt-6">
-                    <h6 className="text-blue-600 text-sm font-bold px-4">Information</h6>
                     <ul className="mt-3 space-y-2">
-                        <li hidden={data === "User" || data === "Teacher"}>
-                            <Link to="/Dashboard/TeacherRequest"
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiUser className="mr-2" /> {/* React Icon */}
-                                <span>Teacher Request</span>
-                            </Link>
-                        </li>
-                        <li hidden={data === "User" || data === "Teacher"}>
-                            <Link to='/Dashboard/users'
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiUser className="mr-2" /> {/* React Icon */}
-                                <span>Users</span>
-                            </Link>
-                        </li>
-                        <li hidden={data === "User" || data === "Teacher"}>
-                            <Link to="/Dashboard/AllClasses"
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiList className="mr-2" /> {/* React Icon */}
-                                <span>All Classes</span>
-                            </Link>
-                        </li>
-                        <li hidden={data === "Admin" || data === "User"}>
-                            <Link to="/Dashboard/AddClass"
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiPlusCircle className="mr-2" /> {/* React Icon */}
-                                <span>Add Class</span>
-                            </Link>
-                        </li>
-                        <li hidden={data === "Admin" || data === "User"}>
-                            <Link to="/Dashboard/MyClasses"
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiBook className="mr-2" /> {/* React Icon */}
-                                <span>My Classes</span>
-                            </Link>
-                        </li>
-                        <li hidden={data === "Admin" || data === "Teacher"}>
-                            <Link to="/Dashboard/My-enroll-class"
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiBook className="mr-2" /> {/* React Icon */}
-                                <span>My Enrolled Classes</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                        {data === "Admin" && <>
+                            <li>
+                                <Link to="/Dashboard/TeacherRequest"
+                                    className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                    <FiUser className="mr-2" /> {/* React Icon */}
+                                    <span>Teacher Request</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='/Dashboard/users'
+                                    className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                    <FiUser className="mr-2" /> {/* React Icon */}
+                                    <span>Users</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/Dashboard/AllClasses"
+                                    className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                    <FiList className="mr-2" /> {/* React Icon */}
+                                    <span>All Classes</span>
+                                </Link>
+                            </li></>
 
-                <div hidden={data === "Admin" || data === "Teacher"} className="mt-6">
-                    <h6 className="text-blue-600 text-sm font-bold px-4">Payment</h6>
-                    <ul className="mt-3 space-y-2">
-                        <li>
-                            <a
-                                className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
-                                <FiDollarSign className="mr-2" /> {/* React Icon */}
-                                <span>History</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                        }
+                        {
+                            data === 'Teacher' && <><li>
+                                <Link to="/Dashboard/AddClass"
+                                    className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                    <FiPlusCircle className="mr-2" /> {/* React Icon */}
+                                    <span>Add Class</span>
+                                </Link>
+                            </li>
+                                <li>
+                                    <Link to="/Dashboard/MyClasses"
+                                        className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                        <FiBook className="mr-2" /> {/* React Icon */}
+                                        <span>My Classes</span>
+                                    </Link>
+                                </li></>
+                        }
+                        {
+                            data === 'User' && <><li>
+                                <Link to="/Dashboard/My-enroll-class"
+                                    className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                    <FiBook className="mr-2" /> {/* React Icon */}
+                                    <span>My Enrolled Classes</span>
+                                </Link>
+                            </li>
 
-                <div className="mt-6">
-                    <h6 className="text-blue-600 text-sm font-bold px-4">Actions</h6>
-                    <ul className="mt-3 space-y-2">
+                                <li>
+                                    <Link
+                                        className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
+                                        <FiDollarSign className="mr-2" /> {/* React Icon */}
+                                        <span>Payment History</span>
+                                    </Link>
+                                </li></>
+                        }
                         <li>
                             <Link to="/Dashboard/My-Profile"
                                 className="text-gray-800 text-sm flex items-center hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
@@ -203,11 +198,11 @@ const SideBar = () => {
                             </Link>
                         </li>
                         <li>
-                            <a onClick={handleLogOut}
+                            <Link onClick={handleLogOut}
                                 className="text-gray-800 text-sm flex items-center cursor-pointer hover:bg-gray-100 rounded-md px-4 py-2 transition-all">
                                 <FiLogOut className="mr-2" /> {/* React Icon */}
                                 <span>Logout</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

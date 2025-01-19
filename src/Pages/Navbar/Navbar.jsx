@@ -45,8 +45,11 @@ const Navbar = () => {
                                 {link}
                             </ul>
                         </div>
-                        <img src={logo} alt="" className="w-6 " />
-                        <a className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></a>
+                        <Link to="/" className="flex justify-center items-center">
+                            <img src={logo} alt="" className="w-6 " />
+                            <p className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></p>
+
+                        </Link>
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1 font-semibold">

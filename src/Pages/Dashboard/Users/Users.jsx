@@ -1,18 +1,20 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
+import { useState } from "react";
 
 const Users = () => {
     const axiosSecure = useAxiousSecure();
-
-
+    const [search, setSearch] = useState("");
     // Fetch users
-    const { data, isLoading, error, refetch } = useQuery({
-        queryKey: ["users"],
+    const { data: users, error, refetch } = useQuery({
+        queryKey: ["users", search],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/users`);
+            const { data } = await axiosSecure.get(`/users?search=${search}`);
+            console.log(data);
             return data;
         },
     });
+
 
     // Mutation to update user role
     const makeAdminMutation = useMutation({
@@ -24,9 +26,6 @@ const Users = () => {
         },
     });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
 
     if (error) {
         return <div>Error fetching users.</div>;
@@ -42,10 +41,12 @@ const Users = () => {
                 <div>
                     <div className="flex justify-end mr-5">
                         <input
-                            type="text"
-                            placeholder="Search with email"
                             className="input input-bordered w-full max-w-xs mt-5"
-                            onChange={(e) => handleSearch(e.target.value)}
+                            type="text"
+                            name="search"
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Enter Service Title"
+                            aria-label="Enter Service Title"
                         />
                     </div>
                     <div className="flex items-start">
@@ -62,8 +63,8 @@ const Users = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {Array.isArray(data) && data.length > 0 ? (
-                                            data.map((user) => (
+                                        {Array.isArray(users) && users.length > 0 ? (
+                                            users.map((user) => (
                                                 <tr key={user?._id}>
                                                     <td>
                                                         <div className="flex items-center gap-3">

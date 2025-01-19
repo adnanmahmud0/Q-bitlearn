@@ -56,7 +56,7 @@ import UserRoute from "./UserRoute";
         },
         {
           path: "/Class-Details/:id",
-          element: <PrivateRoute><ClassDetails></ClassDetails></PrivateRoute>,
+          element: <ClassDetails></ClassDetails>,
         },
         {
           path: "/Teach-On-Edurock",

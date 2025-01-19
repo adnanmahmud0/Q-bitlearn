@@ -14,7 +14,7 @@ const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm()
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location?.state?.from?.pathname || "/";
     const onSubmit = (data) => {
         loginUser(data.email, data.password)
             .then(res => {

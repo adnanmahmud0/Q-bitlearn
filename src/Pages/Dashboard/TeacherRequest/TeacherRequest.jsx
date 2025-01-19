@@ -25,7 +25,7 @@ const TeacherRequest = () => {
 
     const handleApprove = async (id) => {
         await axiosSecure.patch(`/teacher/approve/${id}`);
-        await axiosSecure.put(`/teacherUsers?email=${email}`, { role: 2 });
+        await axiosSecure.put(`/teacherUsers?email=${email}`, { role: "Teacher" });
         refetch();
     };
 

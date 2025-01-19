@@ -57,7 +57,7 @@ const Classes = () => {
                     Showing {startIndex}-{endIndex} of {totalItems}
                 </p>
                 {/* Pagination Controls */}
-                <div className="flex justify-center">
+                <div className="flex justify-center text-xs">
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
@@ -79,7 +79,7 @@ const Classes = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
                 {classesData?.map((classItem, index) => (
-                    <div key={index} className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+                    <div key={index} className="bg-slate-100 rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
                         <div className="w-full">
                             <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                         </div>
