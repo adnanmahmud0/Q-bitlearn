@@ -1,49 +1,90 @@
 import { FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const axiosPublic = useAxiosPublic();
     const { loginUser, signInWithGoogle } = useContext(AuthContext);
-    const { register, formState: { errors }, handleSubmit } = useForm()
+    const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location?.state?.from?.pathname || "/";
+
+    const [passwordVisible, setPasswordVisible] = useState(false);  // State to manage password visibility
+
     const onSubmit = (data) => {
         loginUser(data.email, data.password)
             .then(res => {
                 const loggedUser = res.user;
                 console.log(loggedUser);
-                navigate(from, { replace: true});
+                navigate(from, { replace: true });
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Invalid credentials. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    background: '#592ADF',
+                    color: '#FFBB01',
+                    confirmButtonColor: '#F22480',
+                });
             });
     }
 
-    const googleSignIn = () =>{
+    const googleSignIn = () => {
         signInWithGoogle()
-        .then(res => {
-            const loggedUser = res.user;
-            console.log(loggedUser);
-            const userInfo = {
-                name: loggedUser.displayName,
-                email: loggedUser.email,
-                image: loggedUser.photoURL,
-                role: "User",
-            }
-            axiosPublic.post('/users', userInfo)
-            .then(res=> {
-                if(res.data.insertedId){
-                    console.log('user added to the database');
-                    navigate('/');
-                }
+            .then(res => {
+                const loggedUser = res.user;
+                console.log(loggedUser);
+                const userInfo = {
+                    name: loggedUser.displayName,
+                    email: loggedUser.email,
+                    image: loggedUser.photoURL,
+                    role: "User",
+                };
+
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            navigate('/');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Login Successful!',
+                                text: 'You have been login successfully!',
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong while creating the user.',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            background: '#592ADF',
+                            color: '#FFBB01',
+                            confirmButtonColor: '#F22480',
+                        });
+                    });
+                navigate(from, { replace: true });
             })
-            navigate(from, { replace: true});
-        });
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Google sign-in failed. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    background: '#592ADF',
+                    color: '#FFBB01',
+                    confirmButtonColor: '#F22480',
+                });
+            });
     }
 
     return (
@@ -91,7 +132,7 @@ const Login = () => {
                                     <div className="relative flex items-center">
                                         <input
                                             name="password"
-                                            type="password"
+                                            type={passwordVisible ? "text" : "password"}  // Toggle between text and password
                                             {...register("password", {
                                                 required: true,
                                                 minLength: 6,
@@ -101,13 +142,17 @@ const Login = () => {
                                             className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 pl-2 pr-8 py-3 outline-none"
                                             placeholder="Enter password"
                                         />
-                                        <FaEyeSlash className="w-[18px] h-[18px] absolute right-2 cursor-pointer text-gray-400" />
+                                        <div
+                                            onClick={() => setPasswordVisible(prev => !prev)}  // Toggle the visibility
+                                            className="w-[18px] h-[18px] absolute right-2 cursor-pointer text-gray-400"
+                                        >
+                                            {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+                                        </div>
                                     </div>
                                     {errors.password?.type === 'required' && <p className="text-red-600 text-xs block mb-2">Password is required</p>}
                                     {errors.password?.type === 'minLength' && <p className="text-red-600 text-xs block mb-2">Password must be 6 characters</p>}
                                     {errors.password?.type === 'maxLength' && <p className="text-red-600 text-xs block mb-2">Password must be less than 20 characters</p>}
                                     {errors.password?.type === 'pattern' && <p className="text-red-600 text-xs block mb-2">Password must have one Uppercase one lower case, one number and one special character.</p>}
-
                                 </div>
 
                                 <div className="flex flex-wrap items-center justify-between gap-4 mt-6">
@@ -124,7 +169,7 @@ const Login = () => {
                                 <div className="mt-12">
                                     <button
                                         type="submit"
-                                        className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                                        className="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-[#592ADF] hover:bg-[#FFBB01] focus:outline-none"
                                     >
                                         Sign in
                                     </button>

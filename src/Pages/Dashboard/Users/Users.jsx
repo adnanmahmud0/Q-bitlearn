@@ -1,10 +1,12 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const Users = () => {
     const axiosSecure = useAxiousSecure();
     const [search, setSearch] = useState("");
+
     // Fetch users
     const { data: users, error, refetch } = useQuery({
         queryKey: ["users", search],
@@ -15,7 +17,6 @@ const Users = () => {
         },
     });
 
-
     // Mutation to update user role
     const makeAdminMutation = useMutation({
         mutationFn: async (userId) => {
@@ -23,16 +24,41 @@ const Users = () => {
         },
         onSuccess: () => {
             refetch(); // Refetch users after update
+            Swal.fire({
+                icon: 'success',
+                title: 'User role updated!',
+                text: 'The user has been successfully made an Admin.',
+                confirmButtonColor: '#FFBB01',
+            });
+        },
+        onError: () => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Something went wrong while updating the user role.',
+                confirmButtonColor: '#F22480',
+            });
         },
     });
-
 
     if (error) {
         return <div>Error fetching users.</div>;
     }
 
     const handleMakeAdmin = (userId) => {
-        makeAdminMutation.mutate(userId);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to make this user an Admin!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#592ADF',
+            cancelButtonColor: '#F22480',
+            confirmButtonText: 'Yes, make Admin!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                makeAdminMutation.mutate(userId);
+            }
+        });
     };
 
     return (
@@ -41,12 +67,12 @@ const Users = () => {
                 <div>
                     <div className="flex justify-end mr-5">
                         <input
-                            className="input input-bordered w-full max-w-xs mt-5"
+                            className="input input-bordered w-full max-w-xs mt-5 py-3 px-4 rounded-lg shadow-md focus:ring-2 focus:ring-[#592ADF] focus:border-[#592ADF] transition-all duration-200 ease-in-out"
                             type="text"
                             name="search"
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Enter Service Title"
-                            aria-label="Enter Service Title"
+                            placeholder="Search for users"
+                            aria-label="Search for users"
                         />
                     </div>
                     <div className="flex items-start">
@@ -89,7 +115,12 @@ const Users = () => {
                                                     <th>
                                                         <button
                                                             onClick={() => handleMakeAdmin(user._id)}
-                                                            className="btn"
+                                                            className="btn py-2 px-4 rounded-lg text-white transition-all duration-200 ease-in-out 
+                                                            hover:bg-[#FFBB01] disabled:bg-gray-300"
+                                                            style={{
+                                                                backgroundColor: user.role === "Admin" ? '#FFBB01' : '#592ADF',
+                                                                color: user.role === "Admin" ? '#000' : '#fff',
+                                                            }}
                                                             disabled={user.role === "Admin"}
                                                         >
                                                             {user.role === "Admin" ? "Admin" : "Make Admin"}
@@ -105,7 +136,6 @@ const Users = () => {
                                             </tr>
                                         )}
                                     </tbody>
-                                    {/* foot */}
                                 </table>
                             </div>
                         </section>

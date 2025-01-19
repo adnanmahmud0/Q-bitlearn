@@ -5,6 +5,8 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import { useParams } from "react-router-dom";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const EnrollClassDetails = () => {
     const { user } = useContext(AuthContext);
@@ -37,7 +39,34 @@ const EnrollClassDetails = () => {
         },
     });
 
-    if (isLoading) return <p>Loading...</p>;
+    const {
+        data: submissionCounts = {},
+        isLoading: countsLoading,
+        refetch, // Extract refetch function
+    } = useQuery({
+        queryKey: ["submissionCounts", id],
+        queryFn: async () => {
+            const counts = {};
+            if (assignmentData) {
+                for (const assignment of assignmentData) {
+                    const { data } = await axiosSecure.get(`/total-submit-userAssignment/${assignment._id}`);
+                    counts[assignment._id] = data.count;
+                }
+            }
+            return counts;
+        },
+        enabled: !!assignmentData, // Ensure the query only runs when assignmentData is available
+    });
+
+    if (isLoading)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="relative w-16 h-16">
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-t-[#592ADF] border-r-[#F22480] border-b-[#FFBB01] border-l-transparent rounded-full animate-spin"></div>
+                </div>
+            </div>
+        );
+
     if (error) return <p>Error loading data</p>;
 
     const teacherEmail = teacherData?.teacher?.email;
@@ -52,20 +81,33 @@ const EnrollClassDetails = () => {
 
     // Handle assignment submission
     const handleSubmitAssignment = (assignmentId) => {
-        // Get the link for the current assignment from state
         const assignmentLink = assignmentLinks[assignmentId];
 
-        axiosSecure.post('/submit-assignment', {
-            assignmentId,
-            courseId: id, 
-            assignmentLink // Pass the link entered for this assignment
-        })
-        .then(() => {
-            setIsSubmitted(true); 
-        })
-        .catch((err) => {
-            console.error("Error submitting assignment:", err);
-        });
+        axiosSecure
+            .post("/submit-assignment", {
+                assignmentId,
+                courseId: id,
+                assignmentLink,
+            })
+            .then(() => {
+                setIsSubmitted(true);
+                refetch(); // Trigger data refresh for submission counts
+                Swal.fire({
+                    title: "Success!",
+                    text: "Assignment submitted successfully!",
+                    icon: "success",
+                    confirmButtonColor: "#592ADF",
+                });
+            })
+            .catch((err) => {
+                console.error("Error submitting assignment:", err);
+                Swal.fire({
+                    title: "Error!",
+                    text: "Failed to submit assignment. Try again.",
+                    icon: "error",
+                    confirmButtonColor: "#F22480",
+                });
+            });
     };
 
     // Handle input change for each assignment
@@ -83,10 +125,17 @@ const EnrollClassDetails = () => {
             userEmail,
             description,
             rating,
-            teacherEmail
+            teacherEmail,
         };
-        axiosSecure.post('/rating', ratingData);
-        setIsModalOpen(false);
+        axiosSecure.post("/rating", ratingData).then(() => {
+            setIsModalOpen(false);
+            Swal.fire({
+                title: "Thank you!",
+                text: "Your feedback has been submitted.",
+                icon: "success",
+                confirmButtonColor: "#592ADF",
+            });
+        });
     };
 
     return (
@@ -97,10 +146,15 @@ const EnrollClassDetails = () => {
                         <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8"></nav>
                         <section className="main-content w-full overflow-auto p-6">
                             <div className="flex justify-between">
-                                <button className="btn" onClick={handleModalToggle}>
+                                <button
+                                    className="btn text-white bg-[#592ADF] hover:bg-[#F22480]"
+                                    onClick={handleModalToggle}
+                                >
                                     + Teaching Evaluation Report
                                 </button>
-                                <button className="btn">Button</button>
+                                <button className="btn bg-[#FFBB01] text-white hover:bg-[#592ADF]">
+                                    See Video
+                                </button>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="table">
@@ -109,9 +163,8 @@ const EnrollClassDetails = () => {
                                         <tr>
                                             <th>Title & Description</th>
                                             <th>Deadline</th>
-                                            <th>Status</th>
-                                            <th>Your Assignment Link</th>
                                             <th>Total Submitted</th>
+                                            <th>Your Assignment Link</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,9 +182,7 @@ const EnrollClassDetails = () => {
                                                 <td>
                                                     <p>{assignment.deadline}</p>
                                                 </td>
-                                                <td>
-                                                    <p>Not Submitted</p>
-                                                </td>
+                                                <td>{submissionCounts[assignment._id] || 0}</td>
                                                 <td>
                                                     <form>
                                                         <input
@@ -141,17 +192,15 @@ const EnrollClassDetails = () => {
                                                             value={assignmentLinks[assignment._id] || ""} // Bind input to the corresponding assignment's value
                                                             onChange={(e) => handleInputChange(e, assignment._id)} // Update the value for the correct assignment
                                                         />
-                                                        <button 
+                                                        <button
                                                             type="button"
-                                                            className="btn btn-sm ml-5"
+                                                            className="btn btn-sm ml-5 bg-[#F22480] text-white hover:bg-[#592ADF]"
                                                             onClick={() => handleSubmitAssignment(assignment._id)} // Submit assignment on click
                                                         >
                                                             Submit
                                                         </button>
                                                     </form>
                                                 </td>
-
-                                                <td>2</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -190,7 +239,7 @@ const EnrollClassDetails = () => {
                                 <button className="btn btn-outline" onClick={handleModalToggle}>
                                     Cancel
                                 </button>
-                                <button className="btn btn-primary" onClick={handleSend}>
+                                <button className="btn text-white bg-[#592ADF] hover:bg-[#F22480]" onClick={handleSend}>
                                     Send
                                 </button>
                             </div>

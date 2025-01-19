@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; // Ensure Link is imported
+import { Link } from 'react-router-dom';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
 import { AuthContext } from '../../../Provider/AuthProvider';
 
@@ -19,7 +19,11 @@ const MyEnrolledClasses = () => {
     });
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2" style={{ borderTopColor: '#FFBB01', borderBottomColor: '#592ADF' }}></div>
+            </div>
+        );
     }
 
     if (error) {
@@ -37,9 +41,17 @@ const MyEnrolledClasses = () => {
                             <div className="grid lg:grid-cols-3 gap-4">
                                 {Array.isArray(data) && data.length > 0 ? (
                                     data.map((classItem, index) => (
-                                        <div key={index} className="bg-white flex flex-col overflow-hidden hover:shadow-md transition-all relative">
+                                        <div
+                                            key={index}
+                                            className="bg-white rounded-xl flex flex-col overflow-hidden hover:shadow-md transition-all relative border-2"
+                                            
+                                        >
                                             <div className="w-full">
-                                                <img src={classItem.image} alt={classItem?.title} className="w-full object-cover object-top aspect-[230/150]" />
+                                                <img
+                                                    src={classItem.image}
+                                                    alt={classItem?.title}
+                                                    className="w-full object-cover object-top aspect-[230/150]"
+                                                />
                                             </div>
                                             <div className="p-2 flex-1 flex flex-col">
                                                 <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{classItem?.title}</h5>
@@ -47,14 +59,27 @@ const MyEnrolledClasses = () => {
                                                     <div className="flex justify-between items-center">
                                                         <div className="flex flex-wrap justify-between gap-2 mt-2">
                                                             <div className="flex gap-2">
-                                                                <h6 className="text-sm sm:text-base font-bold text-gray-800"><span className="font-bold">Instructor:</span> {classItem?.teacher?.name}</h6>
+                                                                <h6 className="text-sm sm:text-base text-gray-800">
+                                                                    <span className="">Instructor:</span> {classItem?.teacher?.name}
+                                                                </h6>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <Link to={`/Dashboard/Enroll-Class-Details/${classItem?._id}`} className="flex items-center gap-2 mt-4">
-                                                    <button type="button" className="text-sm px-2 min-h-[36px] w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">
-                                                        Continue button
+                                                <Link
+                                                    to={`/Dashboard/Enroll-Class-Details/${classItem?._id}`}
+                                                    className="flex items-center gap-2 mt-4"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        className="text-sm px-2 min-h-[36px] w-full"
+                                                        style={{
+                                                            backgroundColor: '#592ADF',
+                                                            color: '#FFF',
+                                                            borderRadius: '5px',
+                                                        }}
+                                                    >
+                                                        Continue
                                                     </button>
                                                 </Link>
                                             </div>

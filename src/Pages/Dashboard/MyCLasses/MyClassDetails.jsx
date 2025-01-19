@@ -4,6 +4,7 @@ import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const MyClassDetails = () => {
     const classId = useParams();
@@ -38,12 +39,27 @@ const MyClassDetails = () => {
         },
     });
 
+    const { data: noOfSubAssignment } = useQuery({
+        queryKey: ["numberTeacher", id],
+        queryFn: async () => {
+            const { data } = await axiosSecure.get(`/total-submit-assignment/${id}`);
+            return data;
+        }
+    })
 
     const handleAddAssignment = () => {
-        axiosSecure.post(`/assignment`, assignment);
-        setShowModal(false);
-        resetForm();
-        refetch();
+        axiosSecure.post(`/assignment`, assignment).then(() => {
+            Swal.fire({
+                icon: "success",
+                title: "Assignment Created",
+                text: "Your new assignment has been created!",
+                confirmButtonColor: "#592ADF",
+            }).then(() => {
+                setShowModal(false);
+                resetForm();
+                refetch();
+            });
+        });
     };
 
     const handleEdit = (assignment) => {
@@ -57,8 +73,25 @@ const MyClassDetails = () => {
     };
 
     const handleDelete = (id) => {
-        axiosSecure.delete(`/assignment/${id}`).then(() => {
-            refetch();
+        Swal.fire({
+            icon: "warning",
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            showCancelButton: true,
+            confirmButtonColor: "#FFBB01",
+            cancelButtonColor: "#F22480",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/assignment/${id}`).then(() => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "Your assignment has been deleted.",
+                        confirmButtonColor: "#592ADF",
+                    }).then(() => refetch());
+                });
+            }
         });
     };
 
@@ -66,10 +99,17 @@ const MyClassDetails = () => {
         if (currentAssignment) {
             // Update existing assignment
             axiosSecure.put(`/assignment/${currentAssignment._id}`, assignment).then(() => {
-                setShowModal(false);
-                resetForm();
-                setCurrentAssignment(null);
-                refetch();
+                Swal.fire({
+                    icon: "success",
+                    title: "Assignment Updated",
+                    text: "Your assignment has been updated!",
+                    confirmButtonColor: "#592ADF",
+                }).then(() => {
+                    setShowModal(false);
+                    resetForm();
+                    setCurrentAssignment(null);
+                    refetch();
+                });
             });
         } else {
             // Create new assignment
@@ -83,11 +123,9 @@ const MyClassDetails = () => {
                 <div>
                     <div className="flex items-start">
                         <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8"></nav>
-
                         <section className="main-content w-full overflow-auto p-6">
                             <div className="md:flex">
                                 {/* Card components */}
-
                                 <div className="bg-white shadow-[0_4px_12px_-5px_rgba(0,0,0,0.4)] p-6 w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
                                     <div className="inline-block bg-[#edf2f7] rounded-lg py-2 px-3">
                                         <PiStudent className="w-6 size-10 text-blue-600" />
@@ -134,7 +172,7 @@ const MyClassDetails = () => {
                                             <p className="text-sm text-gray-500 flex-1">
                                                 Total Assignment Submitted:
                                             </p>
-                                            <p className="text-xl text-gray-500">?</p>
+                                            <p className="text-xl text-gray-500">{noOfSubAssignment?.count}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +186,7 @@ const MyClassDetails = () => {
                         <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8"></nav>
                         <section className="main-content w-full overflow-auto p-6">
                             <div className="flex justify-end mr-5 mt-10">
-                                <button onClick={() => setShowModal(true)} className="btn btn-primary">
+                                <button onClick={() => setShowModal(true)} className="btn btn-primary" style={{ backgroundColor: '#592ADF' }}>
                                     + Create Assignment
                                 </button>
                             </div>
@@ -170,10 +208,10 @@ const MyClassDetails = () => {
                                                 <td>{assignment.description}</td>
                                                 <td>
                                                     <div className="space-x-2">
-                                                        <button onClick={() => handleEdit(assignment)} className="btn btn-warning btn-sm">
+                                                        <button onClick={() => handleEdit(assignment)} className="btn btn-warning btn-sm" style={{ backgroundColor: '#FFBB01' }}>
                                                             Update
                                                         </button>
-                                                        <button onClick={() => handleDelete(assignment._id)} className="btn btn-error btn-sm">
+                                                        <button onClick={() => handleDelete(assignment._id)} className="btn btn-error btn-sm" style={{ backgroundColor: '#F22480' }}>
                                                             Delete
                                                         </button>
                                                     </div>
@@ -189,7 +227,7 @@ const MyClassDetails = () => {
                     {showModal && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                             <div className="bg-white rounded-lg p-6 w-80">
-                                <h2 className="text-lg font-bold mb-4">New Assignment</h2>
+                                <h2 className="text-lg font-bold mb-4">{currentAssignment ? "Edit Assignment" : "New Assignment"}</h2>
                                 <div className="mb-4">
                                     <label className="block text-sm font-medium mb-1">Title</label>
                                     <input
@@ -228,7 +266,7 @@ const MyClassDetails = () => {
                                     >
                                         Cancel
                                     </button>
-                                    <button onClick={handleSaveAssignment} className="btn btn-primary">
+                                    <button onClick={handleSaveAssignment} className="btn btn-primary" style={{ backgroundColor: '#592ADF' }}>
                                         {currentAssignment ? "Update" : "Add"}
                                     </button>
                                 </div>

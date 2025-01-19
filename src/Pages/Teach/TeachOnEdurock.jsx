@@ -1,34 +1,67 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
+import { useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
 import useAxiousSecure from '../Hooks/useAxiousSecure';
+import teacherIcon from "../../assets/teacher.png";
 
 const TeachOnEdurock = () => {
     const axiosSecure = useAxiousSecure();
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const queryClient = useQueryClient();
     const { register, formState: { errors }, handleSubmit } = useForm();
+
     const onSubmit = data => {
         const status = 'pending';
-        const {experience, category, title} = data;
-        const {displayName, email, photoURL} = user;
-        const teacherInfo = {displayName, photoURL, email, experience, title, category, status};
+        const { experience, category, title } = data;
+        const { displayName, email, photoURL } = user;
+        const teacherInfo = { displayName, photoURL, email, experience, title, category, status };
+
         axiosSecure.post("/teacher", teacherInfo)
-        .then(res =>{
-            console.log(res.data);
-        });
-    }
+            .then(res => {
+                if (res.data?.insertedId) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Application Submitted!',
+                        text: 'Your teaching application is under review.',
+                        confirmButtonColor: '#592ADF',
+                    });
+                    queryClient.invalidateQueries(['teachers']); // Refresh related queries
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Submission Failed!',
+                        text: 'Please try again later.',
+                        confirmButtonColor: '#F22480',
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Something went wrong. Please try again.',
+                    confirmButtonColor: '#F22480',
+                });
+            });
+    };
+
     return (
         <div className="max-w-7xl mx-auto max-sm:max-w-lg p-6">
             <div className="text-center mb-12 sm:mb-16">
                 <div>
                     <img
-                        src="https://readymadeui.com/readymadeui.svg"
+                        src={teacherIcon}
                         alt="logo"
                         className="w-48 inline-block"
                     />
                 </div>
-                <h4 className="text-gray-600 text-base mt-6">Apply for Teaching Position</h4>
+                <h4 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-10 text-[#592ADF]">
+                    Apply for Teaching Position
+                </h4>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -41,12 +74,12 @@ const TeachOnEdurock = () => {
                             defaultValue={user?.displayName || ''}
                             disabled
                             type="text"
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                             placeholder="Enter your name"
                         />
                     </div>
 
-                    {/* Image (Who logged in) */}
+                    {/* Image */}
                     <div>
                         <label className="text-gray-600 text-sm mb-2 block">Profile Image</label>
                         <input
@@ -55,11 +88,11 @@ const TeachOnEdurock = () => {
                             disabled
                             defaultValue={user?.photoURL || ''}
                             accept="image/*"
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                         />
                     </div>
 
-                    {/* Email (Read Only) */}
+                    {/* Email */}
                     <div>
                         <label className="text-gray-600 text-sm mb-2 block">Email</label>
                         <input
@@ -67,7 +100,7 @@ const TeachOnEdurock = () => {
                             type="email"
                             disabled
                             value={user?.email || ''}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                             placeholder="Enter email"
                             readOnly
                         />
@@ -79,7 +112,7 @@ const TeachOnEdurock = () => {
                         <select
                             name="experience"
                             {...register("experience", { required: true })}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                         >
                             <option value="">Select Experience</option>
                             <option value="beginner">Beginner</option>
@@ -96,7 +129,7 @@ const TeachOnEdurock = () => {
                             name="title"
                             {...register("title", { required: true })}
                             type="text"
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                             placeholder="Enter title"
                         />
                         {errors.title && <span className="text-red-600 text-xs block mb-2">Title is required</span>}
@@ -108,7 +141,7 @@ const TeachOnEdurock = () => {
                         <select
                             name="category"
                             {...register("category", { required: true })}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-[#592ADF] transition-all"
                         >
                             <option value="">Select Category</option>
                             <option value="programming">Programming</option>
@@ -135,7 +168,7 @@ const TeachOnEdurock = () => {
                 <div className="mt-8">
                     <button
                         type="submit"
-                        className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                        className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-[#FFBB01] hover:bg-[#592ADF] focus:outline-none"
                     >
                         Submit for Review
                     </button>

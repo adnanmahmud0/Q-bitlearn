@@ -3,12 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import teaching from "../../../assets/teaching.png";
 
 const MyClassUpdate = () => {
     const { id } = useParams();
     const axiosSecure = useAxiousSecure();
     const navigate = useNavigate();
     const [imagePreview, setImagePreview] = useState("");
+    const [loading, setLoading] = useState(false); // State to handle loading spinner
 
     // Query to fetch existing class data
     const { data, isLoading, error } = useQuery({
@@ -43,22 +46,47 @@ const MyClassUpdate = () => {
     // Form submission handler
     const onSubmit = async (formData) => {
         try {
+            setLoading(true); // Start loading
             const updatedClassData = {
                 ...formData,
-                // If an image is selected, add it to the form data
                 image: imagePreview, // You may want to upload this image file separately
             };
 
             // Sending the updated data to the backend
             const response = await axiosSecure.put(`/class/${id}`, updatedClassData);
             console.log("Class updated successfully:", response.data);
+
+            Swal.fire({
+                title: "Success!",
+                text: "Class updated successfully!",
+                icon: "success",
+                confirmButtonText: "OK",
+            }).then(() => {
+                navigate(`/Dashboard/MyClasses`); // Navigate to the class details page
+            });
+
         } catch (error) {
             console.error("Error updating class:", error);
+
+            Swal.fire({
+                title: "Error!",
+                text: "There was an issue updating the class. Please try again.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        } finally {
+            setLoading(false); // Stop loading after the API call
         }
     };
 
     // Show loading state
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading || loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-yellow-500"></div>
+            </div>
+        );
+    }
 
     // Handle error state
     if (error) return <div>Error loading class data</div>;
@@ -78,7 +106,14 @@ const MyClassUpdate = () => {
                                         <section className="main-content w-full overflow-auto p-6">
                                             <div className="max-w-7xl mx-auto p-6">
                                                 <div className="text-center mb-12">
-                                                    <h4 className="text-gray-600 text-base mt-6">Update Class</h4>
+                                                    <div>
+                                                        <img
+                                                            src={teaching}
+                                                            alt="logo"
+                                                            className="w-48 inline-block"
+                                                        />
+                                                    </div>
+                                                    <h4 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-10 text-[#592ADF]">Update Class</h4>
                                                 </div>
 
                                                 {/* Form for updating class */}
@@ -86,55 +121,55 @@ const MyClassUpdate = () => {
                                                     <div className="grid sm:grid-cols-2 gap-6">
                                                         {/* Title */}
                                                         <div>
-                                                            <label className="text-gray-600 text-sm mb-2 block">Class Title</label>
+                                                            <label className="text-[#592ADF] text-sm mb-2 block">Class Title</label>
                                                             <input
                                                                 name="title"
                                                                 {...register("title", { required: true })}
                                                                 type="text"
-                                                                className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                                                                className="bg-[#F4F4F4] w-full text-[#592ADF] text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
                                                                 placeholder="Enter class title"
                                                             />
-                                                            {errors.title && <span className="text-red-600 text-xs block mb-2">Class Title is required</span>}
+                                                            {errors.title && <span className="text-[#F22480] text-xs block mb-2">Class Title is required</span>}
                                                         </div>
 
                                                         {/* Price */}
                                                         <div>
-                                                            <label className="text-gray-600 text-sm mb-2 block">Price</label>
+                                                            <label className="text-[#592ADF] text-sm mb-2 block">Price</label>
                                                             <input
                                                                 name="price"
                                                                 {...register("price", { required: true })}
                                                                 type="number"
-                                                                className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                                                                className="bg-[#F4F4F4] w-full text-[#592ADF] text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
                                                                 placeholder="Enter class price"
                                                             />
-                                                            {errors.price && <span className="text-red-600 text-xs block mb-2">Price is required</span>}
+                                                            {errors.price && <span className="text-[#F22480] text-xs block mb-2">Price is required</span>}
                                                         </div>
 
                                                         {/* Description */}
                                                         <div>
-                                                            <label className="text-gray-600 text-sm mb-2 block">Class Description</label>
+                                                            <label className="text-[#592ADF] text-sm mb-2 block">Class Description</label>
                                                             <textarea
                                                                 name="description"
                                                                 {...register("description", { required: true })}
                                                                 rows="4"
-                                                                className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
+                                                                className="bg-[#F4F4F4] w-full text-[#592ADF] text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
                                                                 placeholder="Enter class description"
                                                             />
-                                                            {errors.description && <span className="text-red-600 text-xs block mb-2">Description is required</span>}
+                                                            {errors.description && <span className="text-[#F22480] text-xs block mb-2">Description is required</span>}
                                                         </div>
 
                                                         {/* Image */}
                                                         <div>
-                                                            <label className="text-gray-600 text-sm mb-2 block">Class Image</label>
+                                                            <label className="text-[#592ADF] text-sm mb-2 block">Class Image</label>
                                                             <input
                                                                 name="image"
                                                                 {...register("image")}
                                                                 type="file"
                                                                 accept="image/*"
-                                                                className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 pl-2 pr-8 py-3 outline-none file:cursor-pointer file:border-0 file:bg-transparent file:text-gray-800 file:mr-4"
+                                                                className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 pl-2 pr-8 py-3 outline-none file:cursor-pointer file:border-0 file:bg-transparent file:text-[#592ADF] file:mr-4"
                                                                 onChange={handleFileChange}
                                                             />
-                                                            {errors.image && <span className="text-red-600 text-xs block mb-2">Image is required</span>}
+                                                            {errors.image && <span className="text-[#F22480] text-xs block mb-2">Image is required</span>}
 
                                                             {/* Show preview of the current image */}
                                                             {imagePreview && <img src={imagePreview} alt="Preview" className="mt-4 w-32 h-32 object-cover" />}
@@ -145,7 +180,7 @@ const MyClassUpdate = () => {
                                                     <div className="mt-8">
                                                         <button
                                                             type="submit"
-                                                            className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                                                            className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-[#FFBB01] hover:bg-[#F22480] focus:outline-none"
                                                         >
                                                             Update Class
                                                         </button>

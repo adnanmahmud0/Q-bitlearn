@@ -3,12 +3,18 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
 import axios from "axios";
+import teaching from "../../../assets/teaching.png";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 const AddClass = () => {
-    const axiosSecure = useAxiousSecure()
+    const axiosSecure = useAxiousSecure();
     const { user } = useContext(AuthContext);
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const navigate = useNavigate();
+
     const onSubmit = async (data) => {
         const status = 'pending';
         const { title, price, description, image } = data;
@@ -41,16 +47,32 @@ const AddClass = () => {
                 totalEnrollment: 0, // Default enrollment is 0
             };
             
-
             // Sending the data to the backend
             const response = await axiosSecure.post("/class", classInfo);
             console.log(response.data);
 
+            // Success alert
+            Swal.fire({
+                title: 'Success!',
+                text: 'Class has been added successfully.',
+                icon: 'success',
+                confirmButtonColor: '#592ADF',
+            });
+
+            // Redirecting to the class list page
+            navigate('/Dashboard/MyClasses');
+
         } catch (error) {
             console.error('Error during class creation:', error);
+            // Error alert
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an issue adding the class.',
+                icon: 'error',
+                confirmButtonColor: '#F22480',
+            });
         }
     };
-
 
     return (
         <>
@@ -66,12 +88,12 @@ const AddClass = () => {
                                     <div className="text-center mb-12 sm:mb-16">
                                         <div>
                                             <img
-                                                src="https://readymadeui.com/readymadeui.svg"
+                                                src={teaching}
                                                 alt="logo"
                                                 className="w-48 inline-block"
                                             />
                                         </div>
-                                        <h4 className="text-gray-600 text-base mt-6">Add a New Class</h4>
+                                        <h4 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-10 text-[#592ADF]">Add a New Class</h4>
                                     </div>
 
                                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -161,7 +183,7 @@ const AddClass = () => {
                                         <div className="mt-8">
                                             <button
                                                 type="submit"
-                                                className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                                                className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-[#FFBB01] hover:bg-[#F22480] focus:outline-none"
                                             >
                                                 Add Class
                                             </button>
@@ -174,7 +196,6 @@ const AddClass = () => {
                 </div>
             </div>
         </>
-
     );
 };
 
