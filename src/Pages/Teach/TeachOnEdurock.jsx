@@ -6,14 +6,17 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
 import useAxiousSecure from '../Hooks/useAxiousSecure';
 import teacherIcon from "../../assets/teacher.png";
+import { useNavigate } from 'react-router-dom';
 
 const TeachOnEdurock = () => {
     const axiosSecure = useAxiousSecure();
     const { user } = useContext(AuthContext);
     const queryClient = useQueryClient();
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = data => {
+        
         const status = 'pending';
         const { experience, category, title } = data;
         const { displayName, email, photoURL } = user;
@@ -28,7 +31,8 @@ const TeachOnEdurock = () => {
                         text: 'Your teaching application is under review.',
                         confirmButtonColor: '#592ADF',
                     });
-                    queryClient.invalidateQueries(['teachers']); // Refresh related queries
+                    queryClient.invalidateQueries(['teachers']); 
+                    navigate("/");
                 } else {
                     Swal.fire({
                         icon: 'error',

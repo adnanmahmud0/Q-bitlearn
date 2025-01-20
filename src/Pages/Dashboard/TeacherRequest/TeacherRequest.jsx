@@ -6,9 +6,6 @@ import Swal from "sweetalert2";
 
 const TeacherRequest = () => {
     const axiosSecure = useAxiousSecure();
-    const { user } = useContext(AuthContext);
-
-    const email = user?.email;
     const [disabledTeacherIds, setDisabledTeacherIds] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -21,7 +18,7 @@ const TeacherRequest = () => {
         },
     });
 
-    const handleApprove = async (id) => {
+    const handleApprove = async (id, email) => {
         const result = await Swal.fire({
             title: "Are you sure?",
             text: "Do you want to approve this teacher?",
@@ -31,16 +28,17 @@ const TeacherRequest = () => {
             cancelButtonColor: "#FFBB01",
             confirmButtonText: "Approve",
         });
-
+    
         if (result.isConfirmed) {
             await axiosSecure.patch(`/teacher/approve/${id}`);
             await axiosSecure.put(`/teacherUsers?email=${email}`, { role: "Teacher" });
-            setDisabledTeacherIds([...disabledTeacherIds, id]);
+            setDisabledTeacherIds((prev) => [...prev, id]);
             refetch();
             Swal.fire("Approved!", "The teacher has been approved.", "success");
+
         }
     };
-
+    
     const handleDisapprove = async (id) => {
         const result = await Swal.fire({
             title: "Are you sure?",
@@ -51,12 +49,14 @@ const TeacherRequest = () => {
             cancelButtonColor: "#FFBB01",
             confirmButtonText: "Reject",
         });
-
+    
         if (result.isConfirmed) {
             await axiosSecure.patch(`/teacher/disapprove/${id}`);
-            setDisabledTeacherIds([...disabledTeacherIds, id]);
+            setDisabledTeacherIds((prev) => [...prev, id]);
             refetch();
             Swal.fire("Rejected!", "The teacher has been rejected.", "error");
+
+
         }
     };
 
@@ -108,7 +108,7 @@ const TeacherRequest = () => {
                                             <th>
                                                 <div className="flex gap-3">
                                                     <button
-                                                        onClick={() => !disabledTeacherIds.includes(teacher._id) && handleApprove(teacher._id)}
+                                                        onClick={() => !disabledTeacherIds.includes(teacher._id) && handleApprove(teacher._id, teacher.email)}
                                                         className={`btn text-white font-bold ${disabledTeacherIds.includes(teacher._id) || teacher.status === "Approved" || teacher.status === "Disapproved" ? "bg-gray-400 cursor-not-allowed" : "bg-[#592ADF] hover:bg-[#4e1f9b]"}`}
                                                         disabled={disabledTeacherIds.includes(teacher._id) || teacher.status === "Approved" || teacher.status === "Reject"}
                                                     >

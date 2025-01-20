@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useAxiousSecure from '../../Hooks/useAxiousSecure';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 const AddClass = () => {
     const axiosSecure = useAxiousSecure();
+    const [submiting, setSubmiting] = useState(false);
     const { user } = useContext(AuthContext);
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -21,6 +22,8 @@ const AddClass = () => {
         const { displayName, email } = user;
         const imageFile = new FormData();
         imageFile.append('image', data.image[0]);
+
+        setSubmiting(true);
 
         try {
             // Await the image upload response
@@ -49,8 +52,8 @@ const AddClass = () => {
             
             // Sending the data to the backend
             const response = await axiosSecure.post("/class", classInfo);
-            console.log(response.data);
-
+            // console.log(response.data);
+            setSubmiting(false);
             // Success alert
             Swal.fire({
                 title: 'Success!',
@@ -63,6 +66,7 @@ const AddClass = () => {
             navigate('/Dashboard/MyClasses');
 
         } catch (error) {
+            setSubmiting(false);
             console.error('Error during class creation:', error);
             // Error alert
             Swal.fire({
@@ -182,10 +186,13 @@ const AddClass = () => {
                                         {/* Submit Button */}
                                         <div className="mt-8">
                                             <button
+                                                disabled={submiting}
                                                 type="submit"
                                                 className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-[#FFBB01] hover:bg-[#F22480] focus:outline-none"
                                             >
-                                                Add Class
+                                                {
+                                                    submiting ? 'Submitting' : 'Add Class'
+                                                }
                                             </button>
                                         </div>
                                     </form>
