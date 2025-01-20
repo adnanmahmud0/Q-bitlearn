@@ -1,23 +1,51 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.svg"
+import logo from "../../assets/logo.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
+
     const handleLogOut = () => {
-        logOut()
-            .then(() => {
-                console.log("Logged out successfully");
-            })
-            .catch(error => console.log(error))
-    }
-    const link =
+        // SweetAlert2 confirmation before logout
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you really want to log out?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F1257F', // Red color for confirmation
+            cancelButtonColor: '#FFBB01', // Yellow color for cancel
+            confirmButtonText: 'Yes, log out!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut()
+                    .then(() => {
+                        Swal.fire(
+                            'Logged Out!',
+                            'You have been logged out successfully.',
+                            'success'
+                        );
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong. Please try again.',
+                            'error'
+                        );
+                    });
+            }
+        });
+    };
+
+    const link = (
         <>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Classes">All Classes</Link></li>
             <li><Link to="/Teach-On-Edurock">Teach on Q-bitlearn</Link></li>
         </>
+    );
 
     return (
         <div className="bg-base-100">
@@ -46,9 +74,8 @@ const Navbar = () => {
                             </ul>
                         </div>
                         <Link to="/" className="flex justify-center items-center">
-                            <img src={logo} alt="" className="w-6 " />
-                            <p className="text-xl font-extrabold ml-"><span className="text-[#F22480]">Q-bit</span><span className="text-[#592ADF]">learn</span></p>
-
+                            <img src={logo} alt="" className="w-6" />
+                            <p className="text-xl font-extrabold ml-"><span className="text-[#F1257F]">Q-bit</span><span className="text-[#FFBB01]">learn</span></p>
                         </Link>
                     </div>
                     <div className="navbar-center hidden lg:flex">
@@ -57,34 +84,67 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end space-x-5">
-                        {
-                            user ?
-                                <>
-                                    <div className="dropdown dropdown-end">
-                                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                            <div className="w-10 rounded-full">
-                                                <img
-                                                    alt="Tailwind CSS Navbar component"
-                                                    src={user.photoURL} />
-                                            </div>
-                                        </div>
-                                        <ul
-                                            tabIndex={0}
-                                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 font-semibold shadow">
-                                            <li>
-                                                <p className="bg-base-300">
-                                                    {user.displayName}
-                                                </p>
-                                            </li>
-                                            <li><Link to="Dashboard">Dashboard</Link></li>
-                                            <li><a onClick={handleLogOut}>Logout</a></li>
-                                        </ul>
+                        {user ? (
+                            <div className="dropdown dropdown-end">
+                                {/* Profile Picture Button */}
+                                <button
+                                    tabIndex={0}
+                                    role="button"
+                                    aria-label="User Menu"
+                                    className="btn btn-circle avatar border border-[#FFBB01]"
+                                >
+                                    <div className="w-10 rounded-full border-2 border-[#F1257F]">
+                                        <img
+                                            alt={`${user.displayName}'s Profile`}
+                                            src={user.photoURL || '/default-profile.png'} // Fallback for missing photoURL
+                                        />
                                     </div>
-                                </> : <>
-                                    <Link to="/Login" className="btn">Login</Link>
-                                    <Link to="/Register" className="btn">Register</Link>
-                                </>
-                        }
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                <ul
+                                    tabIndex={0}
+                                    className="menu menu-sm dropdown-content bg-[#592ADF] text-white rounded-box z-50 mt-3 w-52 p-2 font-semibold shadow-lg"
+                                >
+                                    <li>
+                                        <p className="bg-[#FFBB01] cursor-default text-center rounded py-2">
+                                            {user.displayName || 'Anonymous User'}
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/Dashboard"
+                                            className="hover:bg-[#F1257F] hover:text-white rounded px-3 py-2 transition-colors"
+                                        >
+                                            Dashboard
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={handleLogOut}
+                                            className="hover:bg-[#FFBB01] hover:text-black rounded px-3 py-2 transition-colors"
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/Login"
+                                    className="btn bg-[#592ADF] text-white hover:bg-[#F1257F] border-none rounded px-4 py-2 transition-colors"
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to="/Register"
+                                    className="btn bg-[#FFBB01] text-black hover:bg-[#F1257F] hover:text-white border-none rounded px-4 py-2 transition-colors"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

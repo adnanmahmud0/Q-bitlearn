@@ -15,7 +15,8 @@ import { FaUserAlt, FaShoppingCart, FaSmile, FaServer } from "react-icons/fa";
 import { SiGoogleclassroom } from "react-icons/si";
 import { PiChalkboardTeacherFill } from "react-icons/pi";
 import instructor from "../../assets/3.jpg"
-import { FaCalendar, FaUser } from 'react-icons/fa'; 
+import { FaCalendar, FaUser } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';  // React icon for search
 const Home = () => {
     const swiperRef = useRef(null);
     const axiosPublic = useAxiosPublic();
@@ -38,13 +39,15 @@ const Home = () => {
         swiperRefRatings.current.swiper.slideNext();
     };
 
-    const { data: enrollData } = useQuery({
+    const { data: enrollData, isLoading } = useQuery({
         queryKey: ["pay"],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/mostEnrollClasses`);
             return data;
         },
     });
+
+
 
     const { data: rateData } = useQuery({
         queryKey: ["rate"],
@@ -86,7 +89,14 @@ const Home = () => {
         }
     })
 
-
+    if (isLoading)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="relative w-16 h-16">
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-t-[#592ADF] border-r-[#F22480] border-b-[#FFBB01] border-l-transparent rounded-full animate-spin"></div>
+                </div>
+            </div>
+        );
 
     return (
         <>
@@ -109,16 +119,16 @@ const Home = () => {
                             className="flex flex-col items-center justify-center h-[700px] bg-cover bg-center relative"
                             style={{ backgroundImage: `url(${slide1})` }}
                         >
-                            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                            <div className="absolute inset-0 bg-black bg-opacity-60"></div>
                             <div className="z-10 max-w-6xl max-md:max-w-md mx-auto">
                                 <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6">
                                     <div className="max-md:order-1 max-md:text-center">
-                                        <p className="text-sm font-bold text-white mb-2"><span className="rotate-90 inline-block mr-2">|</span> CONNECT WITH TUTORS</p>
+                                        <p className="text-sm font-bold text-[#F2277E] mb-2"><span className="rotate-90 inline-block mr-2 ">|</span> CONNECT WITH TUTORS</p>
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Find the best tutors and classes</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Discover the perfect tutor to match your learning style. Explore top-rated tutors and courses on EduManage today!</p>
                                         <div className="mt-8 space-x-4">
                                             <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Get started</button>
-                                            <button type="button" className="bg-transparent hover:bg-[#F2277E] hover:text-white border-2 border-[#F2277E] hover:border-white transition-all text-[#F2277E] font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Learn more</button>
+
                                         </div>
                                     </div>
                                     <div className="hidden md:block">
@@ -135,16 +145,16 @@ const Home = () => {
                             className="flex flex-col items-center justify-center h-[700px] bg-cover bg-center relative"
                             style={{ backgroundImage: `url(${slide2})` }}
                         >
-                            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                            <div className="absolute inset-0 bg-black bg-opacity-60"></div>
                             <div className="z-10 max-w-6xl max-md:max-w-md mx-auto">
                                 <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6">
                                     <div className="max-md:order-1 max-md:text-center">
-                                        <p className="text-sm font-bold text-white mb-2"><span className="rotate-90 inline-block mr-2">|</span> CONNECT WITH TUTORS</p>
+                                        <p className="text-sm font-bold text-[#F2277E] mb-2"><span className="rotate-90 inline-block mr-2 ">|</span> CONNECT WITH TUTORS</p>
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Find the best tutors and classes</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Discover the perfect tutor to match your learning style. Explore top-rated tutors and courses on EduManage today!</p>
                                         <div className="mt-8 space-x-4">
                                             <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Explore Classes</button>
-                                            <button type="button" className="bg-transparent hover:bg-[#F2277E] hover:text-white border-2 border-[#F2277E] hover:border-white transition-all text-[#F2277E] font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Learn More</button>
+
                                         </div>
                                     </div>
                                     <div className="hidden md:block">
@@ -165,12 +175,12 @@ const Home = () => {
                             <div className="z-10 max-w-6xl max-md:max-w-md mx-auto">
                                 <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6">
                                     <div className="max-md:order-1 max-md:text-center">
-                                        <p className="text-sm font-bold text-white mb-2"><span className="rotate-90 inline-block mr-2">|</span> BUILD YOUR SKILLS</p>
+                                        <p className="text-sm font-bold mb-2 text-[#F2277E]"><span className="rotate-90 inline-block mr-2 ">|</span> BUILD YOUR SKILLS</p>
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Learn, grow, and achieve your goals</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Empower yourself with new skills and knowledge. With EduManage, your journey to personal and professional growth is just a click away.</p>
                                         <div className="mt-8 space-x-4">
                                             <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Join as a Teacher</button>
-                                            <button type="button" className="bg-transparent hover:bg-[#F2277E] hover:text-white border-2 border-[#F2277E] hover:border-white transition-all text-[#F2277E] font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Learn More</button>
+
                                         </div>
                                     </div>
                                     <div className="hidden md:block">
@@ -198,18 +208,46 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="max-w-7xl mx-auto p-10 rounded-xl bg-white mt-10 shadow-lg">
+            <div className="max-w-7xl mx-auto p-10 rounded-xl bg-white mt-10 shadow-lg my-20">
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 items-center">
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_1.c7b21ebe.png&w=256&q=75" className="w-28 mx-auto" alt="hexa" />
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_2.546077c1.png&w=256&q=75" className="w-28 mx-auto" alt="circle" />
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_3.508e8a28.png&w=256&q=75" className="w-28 mx-auto" alt="treva" />
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_4.335ce9ee.png&w=256&q=75" className="w-28 mx-auto" alt="atlas" />
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_5.6d821bbb.png&w=96&q=75" className="w-28 mx-auto" alt="josef" />
-                    <img src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_1.a929018c.png&w=256&q=75" className="w-28 mx-auto" alt="edurack" />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_1.c7b21ebe.png&w=256&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="hexa"
+                    />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_2.546077c1.png&w=256&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="circle"
+                    />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_3.508e8a28.png&w=256&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="treva"
+                    />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_4.335ce9ee.png&w=256&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="atlas"
+                    />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_5.6d821bbb.png&w=96&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="josef"
+                    />
+                    <img
+                        src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo_1.a929018c.png&w=256&q=75"
+                        className="w-28 mx-auto transform transition-transform duration-300 hover:scale-110"
+                        alt="edurack"
+                    />
                 </div>
+
             </div>
-            <div className='my-10'>
-                <h2 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-10 text-[#592ADF]">Most Popular Classes</h2>
+            <div className='my-20'>
+                <div className='flex justify-center'>
+                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Classes</span>
+                </div>
+                <h2 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-3 text-[#592ADF]">Most Popular Classes</h2>
                 <p className=" text-sm text-gray-500 text-center mb-10">Embark on unforgettable journeys. Book your dream vacation today!</p>
                 <Swiper
                     spaceBetween={20}
@@ -227,7 +265,7 @@ const Home = () => {
                 >
                     {enrollData?.map((classItem, index) => (
                         <SwiperSlide key={index}>
-                            <div className="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+                            <div className="bg-[#F3F4F6] rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
                                 <div className="w-full">
                                     <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                                 </div>
@@ -259,78 +297,31 @@ const Home = () => {
 
                 </Swiper>
             </div>
-            <div className="px-8 mt-4">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid lg:grid-cols-3 gap-6 max-lg:max-w-2xl">
-                        <div className="col-span-2">
-                            <h2 className="text-[#592adf] sm:text-4xl text-2xl font-bold">What our happy clients say</h2> {/* Color for heading */}
-                            <p className="text-sm text-gray-500 mt-4 leading-relaxed">
-                                Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit. Elit occaecat officia et laboris Lorem minim. Officia do aliqua adipisicing ullamco in.
-                            </p>
-                        </div>
 
-                        <div className="flex space-x-4 items-end justify-end">
-                            <div
-                                className="bg-[#592adf] w-10 h-10 grid items-center justify-center rounded-full shrink-0 cursor-pointer"
-                                onClick={goToPrevSlideRating}
-                            >
-                                <FaAngleLeft className="w-3 fill-white inline" /> {/* change slide */}
-                            </div>
-                            <div
-                                className="bg-[#ffbb01] w-10 h-10 grid items-center justify-center rounded-full shrink-0 cursor-pointer"
-                                onClick={goToNextSlideRating}
-                            >
-                                <FaAngleRight className="w-3 fill-white inline" /> {/* change slide */}
-                            </div>
-                        </div>
+
+            <div className="max-w-6xl max-md:max-w-md mx-auto ">
+                <div className="grid md:grid-cols-2 items-center md:gap-10 gap-6 m-5">
+                    <div className="max-md:order-1 max-md:text-center">
+                        <p className="mt-4 text-sm font-bold text-blue-600">
+                            <span className="rotate-90 inline-block mr-2 mb-2">|</span> ALL IN ONE MEETING SCHEDULER
+                        </p>
+                        <h2 className="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">
+                            Unlock Your Potential with Seamless Scheduling
+                        </h2>
+                        <p className="mt-5 text-base text-gray-500 leading-relaxed">
+                            Every great achievement starts with organized plans. Maximize your productivity and stay ahead of your academic goals. With our intuitive scheduler, you'll have more time to focus on what truly matters—your success.
+                        </p>
                     </div>
 
-                    <div className="mt-12">
-                        <Swiper
-                            spaceBetween={20}
-                            breakpoints={{
-                                640: {
-                                    slidesPerView: 1,
-                                },
-                                768: {
-                                    slidesPerView: 3,
-                                },
-                                1024: {
-                                    slidesPerView: 3,
-                                },
-                            }}
-                            ref={swiperRefRatings} // Attach the reference here
-                        >
-                            {rateData?.map((testimonial, index) => (
-                                <SwiperSlide key={index} className='pl-10'>
-                                    <div className="max-w-[360px] h-auto py-5 pl-14 pr-4 bg-white border-2 rounded-3xl relative">
-                                        <img
-                                            src={testimonial?.photoURL}
-                                            className="w-20 h-20 rounded-full absolute -left-10 top-0 bottom-0 my-auto border-2 border-gray-300"
-                                        />
-                                        <div>
-                                            <h6 className="text-black text-[15px] font-bold">{testimonial?.displayName}</h6> {/* Name in color */}
-                                            <p className="mt-1 text-xs text-gray-500">{testimonial?.userEmail}</p> {/* Email in color */}
-                                        </div>
-                                        <div className="mt-4">
-                                            <p className="text-gray-500 text-sm leading-relaxed">{testimonial?.description}</p> {/* Description in color */}
-                                        </div>
-                                        <div className="flex space-x-1 mt-4">
-                                            {[...Array(5)].map((_, i) => (
-                                                <FaStar
-                                                    key={i}
-                                                    className={`w-4 ${i < testimonial?.rating ? 'fill-[#592adf]' : 'fill-[#CED5D8]'}`} // Rating color
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                    <div className="md:h-[400px] p-2">
+                        <img src="https://readymadeui.com/management-img.webp" className="w-full h-full object-contain rounded-lg" alt="Student Productivity" />
                     </div>
                 </div>
             </div>
-            <div className="bg-[#592ADF] px-6 py-16 my-10">
+
+
+
+            <div className="bg-[#592ADF] px-6 py-16 my-20">
                 <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-x-6 gap-y-10 max-w-6xl mx-auto">
                     <div className="flex items-center gap-6">
                         <FaUserAlt className="text-[#FFBB01] w-14 h-14 shrink-0" />
@@ -362,35 +353,123 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6 max-w-7xl mx-auto">
-                <div className="max-md:order-1 max-md:text-center">
-                    <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#592ADF] mb-4">Become an Instructor</h2>
+            <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6 max-w-7xl mx-auto my-20">
+                <div className="max-md:order-1 max-md:text-center m-5">
+                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Instructor</span>
+                    <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#592ADF] mb-4">
+                        Become an Instructor
+                    </h2>
                     <p className="mt-4 text-base text-gray-600 leading-relaxed">
-                        Embark on a gastronomic journey with our curated dishes, delivered promptly to your doorstep. Elevate your dining experience today.
+                        Share your knowledge and inspire students across the globe. Whether you're an experienced educator or a skilled professional,
+                        Q-bitlearn provides the perfect platform to connect with eager learners and make a meaningful impact.
                     </p>
                     <div className="mt-8 flex max-sm:flex-col sm:space-x-4 max-sm:space-y-6">
                         <Link
-                            to="/Teach-On-Edurock"
+                            to="/Teach-On-Q-bitlearn"
                             className="px-6 py-3 text-base font-semibold text-[#FFBB01] border border-[#FFBB01] rounded-full hover:text-white hover:bg-[#FFBB01] transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#f032e6] focus:outline-none focus:ring-opacity-50"
                         >
                             Start Teaching Today
                         </Link>
                     </div>
                 </div>
-                <div className="md:h-[450px]">
+                <div className="md:h-[450px] m-5">
                     <img
                         src={instructor}
                         className="w-full h-full object-cover rounded-lg shadow-xl"
-                        alt="Dining Experience"
+                        alt="Instructor Teaching"
                     />
                 </div>
             </div>
-            <div className="bg-white p-4 mt-10">
+            <div className="px-8 my-20">
+
                 <div className="max-w-7xl mx-auto">
+                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Ratting</span>
+                    <div className="grid lg:grid-cols-3 gap-6 max-lg:max-w-2xl mt-2">
+                        <div className="col-span-2">
+                            <h2 className="text-[#592adf] sm:text-4xl text-2xl font-bold">
+                                What our happy clients say
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-4 leading-relaxed">
+                                Hear from our learners and instructors who have transformed their lives with Q-bitlearn.
+                                Explore their inspiring stories and see how our platform empowers individuals to achieve their goals.
+                            </p>
+                        </div>
+
+                        <div className="flex space-x-4 items-end justify-end">
+                            <div
+                                className="bg-[#592adf] w-10 h-10 grid items-center justify-center rounded-full shrink-0 cursor-pointer"
+                                onClick={goToPrevSlideRating}
+                            >
+                                <FaAngleLeft className="w-3 fill-white inline" />
+                            </div>
+                            <div
+                                className="bg-[#ffbb01] w-10 h-10 grid items-center justify-center rounded-full shrink-0 cursor-pointer"
+                                onClick={goToNextSlideRating}
+                            >
+                                <FaAngleRight className="w-3 fill-white inline" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-12">
+                        <Swiper
+                            spaceBetween={20}
+                            breakpoints={{
+                                640: { slidesPerView: 1 },
+                                768: { slidesPerView: 3 },
+                                1024: { slidesPerView: 3 },
+                            }}
+                            ref={swiperRefRatings}
+                        >
+                            {rateData?.map((testimonial, index) => (
+                                <SwiperSlide key={index} className="pl-10">
+                                    <div className="max-w-[360px] h-auto py-5 pl-14 pr-4 bg-white border-2 rounded-3xl relative">
+                                        <img
+                                            src={testimonial?.photoURL}
+                                            className="w-20 h-20 rounded-full absolute -left-10 top-0 bottom-0 my-auto border-2 border-gray-300"
+                                            alt={`${testimonial?.displayName}'s profile`}
+                                        />
+                                        <div>
+                                            <h6 className="text-black text-[15px] font-bold">
+                                                {testimonial?.displayName}
+                                            </h6>
+                                            <p className="mt-1 text-xs text-gray-500">
+                                                {testimonial?.titlename}
+                                            </p>
+                                        </div>
+                                        <div className="mt-4">
+                                            <p className="text-gray-500 text-sm leading-relaxed">
+                                                {testimonial?.description}
+                                            </p>
+                                        </div>
+                                        <div className="flex space-x-1 mt-4">
+                                            {[...Array(5)].map((_, i) => (
+                                                <FaStar
+                                                    key={i}
+                                                    className={`w-4 ${i < testimonial?.rating
+                                                        ? 'fill-[#592adf]'
+                                                        : 'fill-[#CED5D8]'
+                                                        }`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-white p-4 my-20">
+                <div className="max-w-7xl mx-auto">
+                    <div className='flex justify-center '>
+                        <div className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01] '>News & Blogs</div>
+                    </div>
                     <div className="text-center max-w-xl mx-auto">
+
                         <h2 className="text-3xl font-extrabold text-[#592ADF] inline-block">LATEST BLOGS</h2>
                         <p className="text-gray-600 text-sm mt-6">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan, nunc et tempus blandit, metus mi consectetur felis turpis vitae ligula.
+                            Explore our latest blog posts to stay updated on the newest trends, tips, and insights in education, technology, and self-improvement.
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 max-lg:max-w-3xl max-md:max-w-md mx-auto">
@@ -409,7 +488,7 @@ const Home = () => {
                                 <h3 className="text-xl font-bold text-white">A Guide to Igniting Your Imagination</h3>
                                 <div className="mt-4">
                                     <p className="text-gray-200 text-sm">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan, nunc et tempus blandit, metus mi consectetur felis turpis vitae ligula.
+                                        Learn how to ignite your creativity and start thinking outside the box. This blog post offers practical tips to inspire your imagination and fuel your journey towards innovative thinking.
                                     </p>
                                 </div>
                             </div>
@@ -430,7 +509,7 @@ const Home = () => {
                                 <h3 className="text-xl font-bold text-white">Hacks to Supercharge Your Day</h3>
                                 <div className="mt-4">
                                     <p className="text-gray-200 text-sm">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan, nunc et tempus blandit, metus mi consectetur felis turpis vitae ligula.
+                                        Discover effective life hacks and time management strategies that can help you boost productivity and make the most of your day. Whether you’re a student or a working professional, this post offers tips for everyone.
                                     </p>
                                 </div>
                             </div>
@@ -451,7 +530,7 @@ const Home = () => {
                                 <h3 className="text-xl font-bold text-white">Trends and Predictions</h3>
                                 <div className="mt-4">
                                     <p className="text-gray-200 text-sm">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis accumsan, nunc et tempus blandit, metus mi consectetur felis turpis vitae ligula.
+                                        Stay ahead of the curve by reading our latest trends and predictions in the education and tech industries. In this blog post, we highlight emerging trends, innovative technologies, and how they are shaping the future.
                                     </p>
                                 </div>
                             </div>
@@ -459,6 +538,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
         </>
     );
 };

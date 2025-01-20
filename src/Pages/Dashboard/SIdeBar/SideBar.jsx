@@ -7,7 +7,7 @@ import { MdHouseSiding } from 'react-icons/md';
 import { AuthContext } from "../../../Provider/AuthProvider";
 import useAxiousSecure from "../../Hooks/useAxiousSecure";
 import { useQuery } from "@tanstack/react-query";
-
+import { LuLayoutDashboard } from "react-icons/lu";
 const SideBar = () => {
 
     const { user, logOut } = useContext(AuthContext);
@@ -67,8 +67,14 @@ const SideBar = () => {
                 <ul className="space-y-3 p-4">
                     <li>
                         <Link to="/Dashboard" className="text-gray-800 text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
-                            <FiHome className="mr-2" />
+                            <LuLayoutDashboard  className="mr-2" />
                             <span>Dashboard</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/" className="text-gray-800 text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <FiHome className="mr-2" />
+                            <span>Home</span>
                         </Link>
                     </li>
                     {data === "Admin" && <>
@@ -110,12 +116,6 @@ const SideBar = () => {
                             <Link to="/Dashboard/My-enroll-class" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiBook className="mr-2" />
                                 <span>My Enrolled Classes</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
-                                <FiDollarSign className="mr-2" />
-                                <span>Payment History</span>
                             </Link>
                         </li>
                     </>}

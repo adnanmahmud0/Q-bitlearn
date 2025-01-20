@@ -23,7 +23,7 @@ const EnrollClassDetails = () => {
 
     const axiosSecure = useAxiousSecure();
 
-    const { data: teacherData, isLoading, error } = useQuery({
+    const { data: classdata, isLoading, error } = useQuery({
         queryKey: ["teacher", id],
         queryFn: async () => {
             const { data } = await axiosSecure.get(`/class/${id}`);
@@ -69,7 +69,7 @@ const EnrollClassDetails = () => {
 
     if (error) return <p>Error loading data</p>;
 
-    const teacherEmail = teacherData?.teacher?.email;
+    const titlename = classdata?.title;
 
     const handleRatingChange = (newRating) => {
         setRating(newRating);
@@ -125,7 +125,7 @@ const EnrollClassDetails = () => {
             userEmail,
             description,
             rating,
-            teacherEmail,
+            titlename,
         };
         axiosSecure.post("/rating", ratingData).then(() => {
             setIsModalOpen(false);

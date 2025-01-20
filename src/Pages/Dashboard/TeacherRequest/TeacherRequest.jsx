@@ -10,54 +10,59 @@ const TeacherRequest = () => {
 
     const email = user?.email;
     const [disabledTeacherIds, setDisabledTeacherIds] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(10);
 
     const { data: teacherRequests = [], refetch } = useQuery({
-        queryKey: ["teacherreq"],
+        queryKey: ["teacherreq", currentPage],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/teacher`);
+            const { data } = await axiosSecure.get(`/teacher?page=${currentPage}&limit=${limit}`);
             return data;
         },
     });
 
     const handleApprove = async (id) => {
-        // Confirm the action using SweetAlert2
         const result = await Swal.fire({
             title: "Are you sure?",
             text: "Do you want to approve this teacher?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#592ADF", // Custom color
-            cancelButtonColor: "#FFBB01", // Custom color
+            confirmButtonColor: "#592ADF",
+            cancelButtonColor: "#FFBB01",
             confirmButtonText: "Approve",
         });
 
         if (result.isConfirmed) {
             await axiosSecure.patch(`/teacher/approve/${id}`);
             await axiosSecure.put(`/teacherUsers?email=${email}`, { role: "Teacher" });
-            setDisabledTeacherIds([...disabledTeacherIds, id]); // Disable the buttons after approval
+            setDisabledTeacherIds([...disabledTeacherIds, id]);
             refetch();
             Swal.fire("Approved!", "The teacher has been approved.", "success");
         }
     };
 
     const handleDisapprove = async (id) => {
-        // Confirm the action using SweetAlert2
         const result = await Swal.fire({
             title: "Are you sure?",
             text: "Do you want to reject this teacher?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#F22480", // Custom color
-            cancelButtonColor: "#FFBB01", // Custom color
+            confirmButtonColor: "#F22480",
+            cancelButtonColor: "#FFBB01",
             confirmButtonText: "Reject",
         });
 
         if (result.isConfirmed) {
             await axiosSecure.patch(`/teacher/disapprove/${id}`);
-            setDisabledTeacherIds([...disabledTeacherIds, id]); // Disable the buttons after disapproval
+            setDisabledTeacherIds([...disabledTeacherIds, id]);
             refetch();
             Swal.fire("Rejected!", "The teacher has been rejected.", "error");
         }
+    };
+
+    const handlePagination = (newPage) => {
+        setCurrentPage(newPage);
+        refetch();
     };
 
     return (
@@ -68,7 +73,6 @@ const TeacherRequest = () => {
                     <section className="main-content w-full overflow-auto p-6">
                         <div className="overflow-x-auto">
                             <table className="table">
-                                {/* head */}
                                 <thead>
                                     <tr>
                                         <th>User & Experience</th>
@@ -78,16 +82,13 @@ const TeacherRequest = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {teacherRequests.map((teacher) => (
+                                    {teacherRequests.teachers?.map((teacher) => (
                                         <tr key={teacher._id}>
                                             <td>
                                                 <div className="flex items-center gap-3">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle h-12 w-12">
-                                                            <img
-                                                                src={teacher.photoURL}
-                                                                alt={teacher.displayName}
-                                                            />
+                                                            <img src={teacher.photoURL} alt={teacher.displayName} />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -101,9 +102,7 @@ const TeacherRequest = () => {
                                             <td>
                                                 {teacher.title}
                                                 <br />
-                                                <span className="badge badge-ghost badge-sm">
-                                                    {teacher.category}
-                                                </span>
+                                                <span className="badge badge-ghost badge-sm">{teacher.category}</span>
                                             </td>
                                             <td>{teacher.status}</td>
                                             <th>
@@ -128,6 +127,44 @@ const TeacherRequest = () => {
                                     ))}
                                 </tbody>
                             </table>
+
+                            {/* Pagination */}
+                            <ul className="flex mx-auto border-2 divide-x-2 rounded-lg overflow-hidden w-max font-[sans-serif]">
+                                <li
+                                    className={`flex items-center justify-center shrink-0 px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-800 ${currentPage === 1 ? "cursor-not-allowed" : ""}`}
+                                    onClick={() => currentPage > 1 && handlePagination(currentPage - 1)}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-800 mr-2" viewBox="0 0 55.753 55.753">
+                                        <path
+                                            d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
+                                        />
+                                    </svg>
+                                    Previous
+                                </li>
+
+                                {/* Page Numbers */}
+                                {[...Array(teacherRequests.totalPages)].map((_, index) => (
+                                    <li
+                                        key={index + 1}
+                                        className={`flex items-center justify-center shrink-0 px-4 py-2 hover:bg-gray-50 cursor-pointer text-base font-bold ${currentPage === index + 1 ? "!bg-gray-100 text-gray-800" : "text-gray-500"}`}
+                                        onClick={() => handlePagination(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </li>
+                                ))}
+
+                                <li
+                                    className={`flex items-center justify-center shrink-0 px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-800 ${currentPage === teacherRequests.totalPages ? "cursor-not-allowed" : ""}`}
+                                    onClick={() => currentPage < teacherRequests.totalPages && handlePagination(currentPage + 1)}
+                                >
+                                    Next
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-800 ml-2 rotate-180" viewBox="0 0 55.753 55.753">
+                                        <path
+                                            d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
+                                        />
+                                    </svg>
+                                </li>
+                            </ul>
                         </div>
                     </section>
                 </div>

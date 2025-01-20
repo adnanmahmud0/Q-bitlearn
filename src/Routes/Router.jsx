@@ -26,6 +26,7 @@ import MyClassDetails from "../Pages/Dashboard/MyCLasses/MyClassDetails";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
+import TeacherRoute from "./TeacherRoute";
 
 
   export const router = createBrowserRouter([
@@ -86,11 +87,11 @@ import UserRoute from "./UserRoute";
         },
         {
           path: "/Dashboard/Enroll-Class-Details/:id",
-          element: <EnrollClassDetails></EnrollClassDetails>,
+          element: <UserRoute><EnrollClassDetails></EnrollClassDetails></UserRoute>,
         },
         {
           path: "/Dashboard/Users",
-          element: <Users></Users>,
+          element: <AdminRoute><Users></Users></AdminRoute>,
         },
         {
           path: "/Dashboard/My-Profile",
@@ -98,19 +99,19 @@ import UserRoute from "./UserRoute";
         },
         {
           path: "/Dashboard/AddClass",
-          element: <AddClass></AddClass>
+          element:  <TeacherRoute><AddClass></AddClass></TeacherRoute>,
         },
         {
           path: "/Dashboard/AllClasses",
-          element: <AllClasses></AllClasses>,
+          element: <AdminRoute><AllClasses></AllClasses></AdminRoute>,
         },
         {
           path: "/Dashboard/MyClasses",
-          element: <MyClasses></MyClasses>,
+          element: <TeacherRoute><MyClasses></MyClasses></TeacherRoute>,
         },
         {
           path: "/Dashboard/MyClassUpdate/:id",
-          element: <MyCLassUpdate></MyCLassUpdate>,
+          element: <TeacherRoute><MyCLassUpdate></MyCLassUpdate></TeacherRoute>,
         },
         {
           path: "/Dashboard/MyClassDetails/:id",

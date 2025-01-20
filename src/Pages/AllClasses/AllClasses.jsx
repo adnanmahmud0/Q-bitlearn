@@ -50,7 +50,9 @@ const AllClasses = () => {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-yellow-500"></div>
+                <div className="relative w-16 h-16">
+                    <div className="absolute top-0 left-0 w-full h-full border-4 border-t-[#592ADF] border-r-[#F22480] border-b-[#FFBB01] border-l-transparent rounded-full animate-spin"></div>
+                </div>
             </div>
         );
     }
@@ -83,7 +85,7 @@ const AllClasses = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {classes.map((cls, index) => (
+                                    {classes?.map((cls, index) => (
                                         <tr key={cls?.id || index} className="hover:bg-gray-100">
                                             <td>
                                                 <div className="flex items-center gap-3">

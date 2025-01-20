@@ -7,6 +7,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { Helmet } from 'react-helmet-async';
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import loginimage from "../../assets/login.jpg"
 
 const Login = () => {
     const axiosPublic = useAxiosPublic();
@@ -59,6 +60,7 @@ const Login = () => {
                                 title: 'Login Successful!',
                                 text: 'You have been login successfully!',
                             });
+                            
                         }
                     })
                     .catch((error) => {
@@ -190,10 +192,10 @@ const Login = () => {
                         </div>
 
                         {/* Image Section */}
-                        <div className="w-full h-full flex items-center bg-[#000842] rounded-xl p-8">
+                        <div className="p-2 bg-slate-100 rounded-2xl">
                             <img
-                                src="https://readymadeui.com/signin-image.webp"
-                                className="w-full aspect-[12/12] object-contain"
+                                src={loginimage}
+                                className="w-full h-full object-cover rounded-xl"
                                 alt="login"
                             />
                         </div>
