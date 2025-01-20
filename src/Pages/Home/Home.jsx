@@ -259,7 +259,7 @@ const Home = () => {
                             slidesPerView: 3,
                         },
                         1024: {
-                            slidesPerView: 5,
+                            slidesPerView: 4,
                         },
                     }}
                 >
@@ -279,7 +279,7 @@ const Home = () => {
                                         <div className="flex justify-between items-center">
                                             <div className="flex flex-wrap justify-between gap-2 mt-2">
                                                 <div className="flex gap-2">
-                                                    <h6 className="text-sm sm:text-base font-bold text-[#f2277e]">${classItem?.price}</h6>
+                                                    <h6 className="text-sm sm:text-base font-bold text-[#f2277e]">৳{classItem?.price}</h6>
                                                 </div>
                                             </div>
                                             <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem?.teacher?.name}</p>

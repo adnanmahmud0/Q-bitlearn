@@ -45,7 +45,18 @@ const MyClassDetails = () => {
             const { data } = await axiosSecure.get(`/total-submit-assignment/${id}`);
             return data;
         }
-    })
+    });
+
+
+    const { data: classenrol } = useQuery({
+        queryKey: ["classenrol33", id],
+        queryFn: async () => {
+            const { data } = await axiosSecure.get(`/class/${id}`);
+            return data;
+        }
+    });
+
+
 
     const handleAddAssignment = () => {
         axiosSecure.post(`/assignment`, assignment).then(() => {
@@ -138,7 +149,7 @@ const MyClassDetails = () => {
                                             <p className="text-sm text-gray-500 flex-1">
                                                 Total Enrolled Student:
                                             </p>
-                                            <p className="text-xl text-gray-500">50</p>
+                                            <p className="text-xl text-gray-500">{classenrol?.totalEnrollment}</p>
                                         </div>
                                     </div>
                                 </div>

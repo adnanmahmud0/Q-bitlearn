@@ -58,6 +58,8 @@ const EnrollClassDetails = () => {
         enabled: !!assignmentData, // Ensure the query only runs when assignmentData is available
     });
 
+    console.log(submissionCounts);
+
     if (isLoading)
         return (
             <div className="flex justify-center items-center h-screen">
