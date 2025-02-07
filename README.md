@@ -1,4 +1,3 @@
-Here’s your updated **README.md** with refined structure, additional details, and an updated dependencies section. 🚀  
 
 ---
 
@@ -191,16 +190,3 @@ Visit the live website: [Q-bitlearn](https://q-bitlearn.web.app/)
 
 ---
 
-## 🤝 Contribution  
-
-Contributions are welcome! Please fork the repository and submit a pull request.  
-
----
-
-## 📜 License  
-
-This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for details.  
-
----
-
-This README is **detailed**, **structured**, and **developer-friendly**. Let me know if you need any modifications! 🚀😊
