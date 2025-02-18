@@ -5,6 +5,8 @@ import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Classes = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortOrder, setSortOrder] = useState("asc"); // State for sort order
+    const [isOpen, setIsOpen] = useState(false); // State for dropdown visibility
     const axiosPublic = useAxiosPublic();
     const itemsPerPage = 10;
 
@@ -60,6 +62,15 @@ const Classes = () => {
         );
     }
 
+    // Sorting logic (without useMemo)
+    const sortedClasses = classesData.sort((a, b) => {
+        if (sortOrder === "asc") {
+            return a.price - b.price;
+        } else {
+            return b.price - a.price;
+        }
+    });
+
     // Pagination controls
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -67,6 +78,11 @@ const Classes = () => {
 
     const startIndex = (currentPage - 1) * itemsPerPage + 1;
     const endIndex = Math.min(currentPage * itemsPerPage, totalItems);
+
+    // Toggle dropdown visibility
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <div className="p-4 mx-auto max-w-7xl">
@@ -94,13 +110,78 @@ const Classes = () => {
                     </button>
                 </div>
             </div>
+
+            <div className="mb-4">
+                {/* Dropdown for sorting */}
+                <div className="relative inline-block text-left">
+                    <div>
+                        <button
+                            type="button"
+                            onClick={toggleDropdown} // Toggle the dropdown
+                            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-[#FFBB01] rounded-md hover:bg-[#F5A500] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFBB01]"
+                            id="options-menu"
+                            aria-expanded={isOpen ? "true" : "false"}
+                            aria-haspopup="true"
+                        >
+                            Sort by Price
+                            <svg
+                                className="-mr-1 ml-2 h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* Conditional rendering of dropdown */}
+                    {isOpen && (
+                        <div
+                            className=" z-10 origin-top-left absolute left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby="options-menu"
+                        >
+                            <div className="py-1" role="none">
+                                <button
+                                    onClick={() => {
+                                        setSortOrder("asc");
+                                        setIsOpen(false); // Close the dropdown after selection
+                                    }}
+                                    className={`text-gray-700 block px-4 py-2 text-sm ${sortOrder === "asc" ? "bg-[#FFBB01] text-white" : "hover:bg-gray-100"}`}
+                                    role="menuitem"
+                                >
+                                    Ascending
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setSortOrder("desc");
+                                        setIsOpen(false); // Close the dropdown after selection
+                                    }}
+                                    className={`text-gray-700 block px-4 py-2 text-sm ${sortOrder === "desc" ? "bg-[#FFBB01] text-white" : "hover:bg-gray-100"}`}
+                                    role="menuitem"
+                                >
+                                    Descending
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {isFetching && (
                 <div className="text-center text-yellow-500 mb-4">
                     Fetching latest data...
                 </div>
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-                {classesData.map((classItem, index) => (
+                {sortedClasses.map((classItem, index) => (
                     <div
                         key={index}
                         className="bg-[#F3F4F6] rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative"
