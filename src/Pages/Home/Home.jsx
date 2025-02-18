@@ -125,7 +125,7 @@ const Home = () => {
     return (
         <>
             <Helmet>
-                <title>EduManage | Home</title>
+                <title>Q-bitlearn | Home</title>
             </Helmet>
             <div className="relative">
                 <Swiper
