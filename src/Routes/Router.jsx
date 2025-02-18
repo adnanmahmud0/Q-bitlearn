@@ -28,6 +28,7 @@ import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import TeacherRoute from "./TeacherRoute";
 import Error404 from "../Pages/ErrorPage/Error404";
+import AboutUs from "../Pages/AboutUs/AboutUs";
 
 
   export const router = createBrowserRouter([
@@ -71,6 +72,10 @@ import Error404 from "../Pages/ErrorPage/Error404";
         {
           path: "*",
           element: <Error404></Error404>,
+        },
+        {
+          path: "/AboutUs",
+          element: <AboutUs></AboutUs>,
         }
       ]
     },

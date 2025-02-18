@@ -57,7 +57,7 @@ const Navbar = () => {
         <>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/Classes">All Classes</Link></li>
-            <li><Link to="/Teach-On-Edurock">Teach on Q-bitlearn</Link></li>
+            <li><Link to="/AboutUs">About Us</Link></li>
         </>
     );
 
@@ -132,6 +132,7 @@ const Navbar = () => {
                                             {user.displayName || 'Anonymous User'}
                                         </p>
                                     </li>
+                                    <li className=""><Link className="hover:bg-[#F1257F] hover:text-white rounded px-3 py-2 transition-colors" to="/Teach-On-Edurock">Teach on Q-bitlearn</Link></li>
                                     <li>
                                         <Link
                                             to="/Dashboard"
