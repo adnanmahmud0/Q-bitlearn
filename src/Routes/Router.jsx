@@ -27,6 +27,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import TeacherRoute from "./TeacherRoute";
+import Error404 from "../Pages/ErrorPage/Error404";
 
 
   export const router = createBrowserRouter([
@@ -66,6 +67,10 @@ import TeacherRoute from "./TeacherRoute";
         {
           path: "/Payment/:id",
           element: <PrivateRoute><Payment></Payment></PrivateRoute>,
+        },
+        {
+          path: "*",
+          element: <Error404></Error404>,
         }
       ]
     },

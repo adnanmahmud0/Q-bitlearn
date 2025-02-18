@@ -14,7 +14,7 @@ import useAxiosPublic from '../Hooks/useAxiosPublic';
 import { FaUserAlt, FaShoppingCart, FaSmile, FaServer } from "react-icons/fa";
 import { SiGoogleclassroom } from "react-icons/si";
 import { PiChalkboardTeacherFill } from "react-icons/pi";
-import instructor from "../../assets/3.jpg"
+import instructor from "../../assets/3.jpg";
 import { FaCalendar, FaUser } from 'react-icons/fa';
 import { FaSearch } from 'react-icons/fa';  // React icon for search
 const Home = () => {

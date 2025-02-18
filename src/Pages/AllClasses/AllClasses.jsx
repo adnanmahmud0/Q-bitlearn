@@ -3,6 +3,7 @@ import useAxiousSecure from '../Hooks/useAxiousSecure';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const AllClasses = () => {
     const navigate = useNavigate();
@@ -85,7 +86,11 @@ const AllClasses = () => {
     }
 
     return (
-        <div className="relative pt-[70px] h-screen">
+        <>
+                    <Helmet>
+                <title>EduManage | All Classes</title>
+            </Helmet>
+                <div className="relative pt-[70px] h-screen">
             <div>
                 <div className="flex items-start">
                     <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8">
@@ -187,6 +192,8 @@ const AllClasses = () => {
                 </div>
             </div>
         </div>
+        </>
+
     );
 };
 

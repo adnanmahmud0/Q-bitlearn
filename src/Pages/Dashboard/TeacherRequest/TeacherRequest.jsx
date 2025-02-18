@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const TeacherRequest = () => {
     const axiosSecure = useAxiousSecure();
@@ -66,7 +67,11 @@ const TeacherRequest = () => {
     };
 
     return (
-        <div className="relative pt-[70px] h-screen">
+        <>
+                    <Helmet>
+                <title>EduManage | Teacher Request</title>
+            </Helmet>
+                <div className="relative pt-[70px] h-screen">
             <div>
                 <div className="flex items-start">
                     <nav id="sidebar" className="lg:min-w-[250px] w-max max-lg:min-w-8"></nav>
@@ -170,6 +175,7 @@ const TeacherRequest = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
