@@ -127,7 +127,7 @@ const Home = () => {
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Find the best tutors and classes</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Discover the perfect tutor to match your learning style. Explore top-rated tutors and courses on EduManage today!</p>
                                         <div className="mt-8 space-x-4">
-                                            <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Get started</button>
+                                            <Link to="/Classes" type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Get started</Link>
 
                                         </div>
                                     </div>
@@ -153,7 +153,7 @@ const Home = () => {
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Find the best tutors and classes</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Discover the perfect tutor to match your learning style. Explore top-rated tutors and courses on EduManage today!</p>
                                         <div className="mt-8 space-x-4">
-                                            <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Explore Classes</button>
+                                            <Link to="/Classes" type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Explore Classes</Link>
 
                                         </div>
                                     </div>
@@ -179,7 +179,7 @@ const Home = () => {
                                         <h2 className="text-white md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Learn, grow, and achieve your goals</h2>
                                         <p className="mt-4 text-base text-white leading-relaxed">Empower yourself with new skills and knowledge. With EduManage, your journey to personal and professional growth is just a click away.</p>
                                         <div className="mt-8 space-x-4">
-                                            <button type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Join as a Teacher</button>
+                                            <Link to="/Teach-On-Edurock" type="button" className="bg-[#FFBB01] hover:bg-transparent hover:bg-[#F2277E] border-2 transition-all text-white font-semibold tracking-wide text-sm rounded-full px-6 py-2.5">Join as a Teacher</Link>
 
                                         </div>
                                     </div>
@@ -287,7 +287,7 @@ const Home = () => {
                                     </div>
                                     <Link to={`/Class-Details/${classItem?._id}`} className="flex items-center gap-2 mt-4">
                                         <button type="button" className="text-sm px-2 min-h-[36px] w-full bg-[#ffbb01] hover:bg-[#ffbb01] text-white tracking-wide ml-auto outline-none border-none rounded">
-                                            Enroll
+                                            See more
                                         </button>
                                     </Link>
                                 </div>
