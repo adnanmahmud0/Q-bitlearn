@@ -40,8 +40,9 @@ const MyProfile = () => {
                                     Role: {data}
                                 </p>
                                 <div className="mt-8 text-left">
-                                    <h4 className="text-base text-[#FFBB01]">Phone Number: {user?.phoneNumber || "N/A"}</h4>
+                                    <h4 className="text-base text-[#FFBB01]">Phone Number: {user?.phoneNumber || "+8801642147865"}</h4>
                                     <p className="text-base text-gray-500 mt-0.5">Email: {user?.email}</p>
+                                    <p className="text-base text-gray-500 mt-0.5">Address: {user?.address || "Dhaka, Bangladesh"} </p>
                                 </div>
                             </div>
                         </div>
