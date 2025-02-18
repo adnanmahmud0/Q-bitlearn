@@ -1,10 +1,24 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { ThemeChanger } from "daisyui";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
+
 const Navbar = () => {
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    };
+
     const { user, logOut } = useContext(AuthContext);
 
     const handleLogOut = () => {
@@ -83,7 +97,14 @@ const Navbar = () => {
                             {link}
                         </ul>
                     </div>
+
                     <div className="navbar-end space-x-5">
+                        <input
+                            type="checkbox"
+                            onChange={toggleTheme}
+                            checked={theme === "dark"}
+                            className="toggle theme-controller col-span-2 col-start-1 row-start-1 border-[#592ADF] bg-[#FFBB01] checked:border-[#FFBB01] checked:bg-[#592ADF]"
+                        />
                         {user ? (
                             <div className="dropdown dropdown-end">
                                 {/* Profile Picture Button */}
