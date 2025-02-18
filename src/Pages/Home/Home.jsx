@@ -386,7 +386,7 @@ const Home = () => {
                     <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Ratting</span>
                     <div className="grid lg:grid-cols-3 gap-6 max-lg:max-w-2xl mt-2">
                         <div className="col-span-2">
-                            <h2 className="text-[#592adf] sm:text-4xl text-2xl font-bold">
+                            <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#592ADF] mb-4">
                                 What our happy clients say
                             </h2>
                             <p className="text-sm text-gray-500 mt-4 leading-relaxed">
@@ -457,6 +457,28 @@ const Home = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-[#FFBB01] font-sans p-6">
+                <div className="grid md:grid-cols-2 items-center sm:gap-12 gap-6 max-w-6xl mx-auto min-h-[200px]">
+                    <div>
+                        <h6 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#F22480] mb-1.5 tracking-wide">Subscribe to Our</h6>
+                        <h3 className="sm:text-5xl text-3xl text-white font-bold uppercase tracking-wider">Newsletter</h3>
+                    </div>
+
+                    <div className="bg-white flex p-1 rounded-full focus-within:bg-gray-100 shadow-md">
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            className="w-full outline-none bg-transparent text-sm text-gray-800 px-4 py-3"
+                        />
+                        <button
+                            type="button"
+                            className="bg-[#592ADF] hover:bg-[#F22480] transition-all text-white font-semibold text-sm rounded-full px-6 py-3"
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div>
             </div>
