@@ -1,12 +1,33 @@
 import React, { useState } from "react";
-import { FaFacebookF, FaLinkedinIn, FaInstagram, FaGithub } from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaInstagram, FaGithub, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaEnvelope } from "react-icons/fa";
+import Swal from "sweetalert2";
+
 const Footer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleSubmit = () => {
+    if (!email) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter a valid email!",
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: `Thank you! Your email "${email}" has been submitted.`,
+    });
+
+    setEmail(""); // Clear input after submission
   };
 
   return (
@@ -106,7 +127,6 @@ const Footer = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white shadow-lg p-8 w-full max-w-xl rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
             <div className="flex max-sm:flex-col gap-10">
-              {/* Use React Icon here */}
               <FaEnvelope className="w-24 h-24 text-[#592ADF] shrink-0" />
 
               <div>
@@ -120,12 +140,15 @@ const Footer = () => {
                     type="email"
                     placeholder="Enter your email address"
                     className="px-2 py-3 text-gray-800 w-full text-sm bg-transparent outline-none"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <button
                     type="button"
                     className="px-4 py-2.5 rounded text-white text-sm tracking-wider border-none outline-none bg-[#592ADF] hover:bg-[#5128a1] active:bg-[#3c1d83]"
+                    onClick={handleSubmit}
                   >
-                    Send Message
+                    Send
                   </button>
                 </div>
 

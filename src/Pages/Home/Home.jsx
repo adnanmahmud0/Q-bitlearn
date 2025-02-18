@@ -4,7 +4,7 @@ import slide2 from "../../assets/20.jpg";
 import slide3 from "../../assets/21.jpg";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FaAngleRight } from 'react-icons/fa';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import 'swiper/css';
 import { useQuery } from '@tanstack/react-query';
 import { FaAngleLeft } from "react-icons/fa";
@@ -17,7 +17,31 @@ import { PiChalkboardTeacherFill } from "react-icons/pi";
 import instructor from "../../assets/3.jpg";
 import { FaCalendar, FaUser } from 'react-icons/fa';
 import { FaSearch } from 'react-icons/fa';  // React icon for search
+import Swal from "sweetalert2";
+
 const Home = () => {
+
+    const [email, setEmail] = useState("");
+
+    const handleSubmit = () => {
+        if (!email) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Please enter a valid email!",
+            });
+            return;
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: `Thank you! Your email "${email}" has been submitted.`,
+        });
+
+        setEmail(""); // Clear input after submission
+    };
+
     const swiperRef = useRef(null);
     const axiosPublic = useAxiosPublic();
     const goToPrevSlide = () => {
@@ -365,7 +389,7 @@ const Home = () => {
                     </p>
                     <div className="mt-8 flex max-sm:flex-col sm:space-x-4 max-sm:space-y-6">
                         <Link
-                            to="/Teach-On-Q-bitlearn"
+                            to="/Teach-On-Edurock"
                             className="px-6 py-3 text-base font-semibold text-[#FFBB01] border border-[#FFBB01] rounded-full hover:text-white hover:bg-[#FFBB01] transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-[#f032e6] focus:outline-none focus:ring-opacity-50"
                         >
                             Start Teaching Today
@@ -467,19 +491,22 @@ const Home = () => {
                         <h3 className="sm:text-5xl text-3xl text-white font-bold uppercase tracking-wider">Newsletter</h3>
                     </div>
 
-                    <div className="bg-white flex p-1 rounded-full focus-within:bg-gray-100 shadow-md">
+                    <form className="bg-white flex p-1 rounded-full focus-within:bg-gray-100 shadow-md">
                         <input
                             type="email"
                             placeholder="Enter your email"
                             className="w-full outline-none bg-transparent text-sm text-gray-800 px-4 py-3"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <button
                             type="button"
                             className="bg-[#592ADF] hover:bg-[#F22480] transition-all text-white font-semibold text-sm rounded-full px-6 py-3"
+                            onClick={handleSubmit}
                         >
                             Submit
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div className="bg-white p-4 my-20">
