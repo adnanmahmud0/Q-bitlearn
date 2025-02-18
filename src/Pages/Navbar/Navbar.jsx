@@ -75,7 +75,7 @@ const Navbar = () => {
                         </div>
                         <Link to="/" className="flex justify-center items-center">
                             <img src={logo} alt="" className="w-6" />
-                            <p className="text-xl font-extrabold ml-"><span className="text-[#F1257F]">Q-bit</span><span className="text-[#FFBB01]">learn</span></p>
+                            <p className="md:text-xl text-sm font-extrabold ml-1"><span className="text-[#F1257F]">Q-bit</span><span className="text-[#FFBB01]">learn</span></p>
                         </Link>
                     </div>
                     <div className="navbar-center hidden lg:flex">
