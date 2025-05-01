@@ -484,10 +484,10 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-[#FFBB01] font-sans p-6">
+            <div className="bg-[#592ADF] font-sans p-6">
                 <div className="grid md:grid-cols-2 items-center sm:gap-12 gap-6 max-w-6xl mx-auto min-h-[200px]">
                     <div>
-                        <h6 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#F22480] mb-1.5 tracking-wide">Subscribe to Our</h6>
+                        <h6 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#FFBB01] mb-1.5 tracking-wide">Subscribe to Our</h6>
                         <h3 className="sm:text-5xl text-3xl text-white font-bold uppercase tracking-wider">Newsletter</h3>
                     </div>
 
@@ -501,7 +501,7 @@ const Home = () => {
                         />
                         <button
                             type="button"
-                            className="bg-[#592ADF] hover:bg-[#F22480] transition-all text-white font-semibold text-sm rounded-full px-6 py-3"
+                            className="bg-[#F22480] hover:bg-[#FFBB01] transition-all text-white font-semibold text-sm rounded-full px-6 py-3"
                             onClick={handleSubmit}
                         >
                             Submit
