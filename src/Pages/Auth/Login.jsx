@@ -102,8 +102,8 @@ const Login = () => {
                         <div className="md:max-w-md w-full px-4 py-4">
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="mb-12">
-                                    <h3 className="text-gray-800 text-3xl font-extrabold">Sign in</h3>
-                                    <p className="text-sm mt-4 text-gray-800">
+                                    <h3 className=" text-3xl font-extrabold">Sign in</h3>
+                                    <p className="text-sm mt-4 ">
                                         Don't have an account?{" "}
                                         <Link
                                             to="/Register"
@@ -115,13 +115,13 @@ const Login = () => {
                                 </div>
 
                                 <div>
-                                    <label className="text-gray-800 text-xs block mb-2">Email</label>
+                                    <label className=" text-xs block mb-2">Email</label>
                                     <div className="relative flex items-center">
                                         <input
                                             name="email"
                                             type="text"
                                             {...register("email", { required: true })}
-                                            className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 pl-2 pr-8 py-3 outline-none"
+                                            className="w-full  text-sm border-b border-gray-300 focus:border-blue-600 pl-2 pr-8 py-3 outline-none"
                                             placeholder="Enter email"
                                         />
                                         <FaEnvelope className="w-[18px] h-[18px] absolute right-2 text-gray-400" />
@@ -130,7 +130,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="mt-8">
-                                    <label className="text-gray-800 text-xs block mb-2">Password</label>
+                                    <label className=" text-xs block mb-2">Password</label>
                                     <div className="relative flex items-center">
                                         <input
                                             name="password"
@@ -141,7 +141,7 @@ const Login = () => {
                                                 maxLength: 20,
                                                 pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
                                             })}
-                                            className="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 pl-2 pr-8 py-3 outline-none"
+                                            className="w-full  text-sm border-b border-gray-300 focus:border-blue-600 pl-2 pr-8 py-3 outline-none"
                                             placeholder="Enter password"
                                         />
                                         <div
@@ -179,7 +179,7 @@ const Login = () => {
 
                                 <div className="my-4 flex items-center gap-4">
                                     <hr className="w-full border-gray-300" />
-                                    <p className="text-sm text-gray-800 text-center">or</p>
+                                    <p className="text-sm  text-center">or</p>
                                     <hr className="w-full border-gray-300" />
                                 </div>
 
