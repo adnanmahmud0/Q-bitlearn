@@ -289,7 +289,7 @@ const Home = () => {
                 >
                     {enrollData?.map((classItem, index) => (
                         <SwiperSlide key={index}>
-                            <div className="bg-[#F3F4F6]/50 rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+                            <div className="bg-[#F3F4F6]/50 rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative shadow-lg duration-300">
                                 <div className="w-full">
                                     <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                                 </div>
