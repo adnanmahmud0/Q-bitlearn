@@ -65,9 +65,9 @@ const Register = () => {
                 <title>edurock | Register</title>
                 <link rel="canonical" href="https://www.tacobell.com/" />
             </Helmet>
-            <div className="bg-white md:h-screen">
+            <div className=" md:h-screen">
                 <div className="grid md:grid-cols-2 items-center gap-8 h-full">
-                    <div className="max-md:order-1 p-4 bg-gray-50 h-full">
+                    <div className="max-md:order-1 p-4  h-full">
                         <img
                             src="https://readymadeui.com/signin-image.webp"
                             className="max-w-[80%] w-full h-full aspect-square object-contain block mx-auto"
