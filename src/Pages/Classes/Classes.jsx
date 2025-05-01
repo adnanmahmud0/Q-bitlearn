@@ -184,7 +184,7 @@ const Classes = () => {
                 {sortedClasses.map((classItem, index) => (
                     <div
                         key={index}
-                        className="bg-[#F3F4F6] rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative"
+                        className="bg-[#F3F4F6]/50 rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative"
                     >
                         <div className="w-full">
                             <img
@@ -199,11 +199,11 @@ const Classes = () => {
                             </p>
                         </div>
                         <div className="p-2 flex-1 flex flex-col">
-                            <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">
+                            <h5 className="text-sm sm:text-base font-bold text-black truncate">
                                 {classItem?.title}
                             </h5>
                             <div className="flex-1">
-                                <p className="mt-1 text-gray-500 truncate">
+                                <p className="mt-1 text-black truncate">
                                     {classItem?.description}
                                 </p>
                                 <div className="flex justify-between items-center">
@@ -214,8 +214,8 @@ const Classes = () => {
                                             </h6>
                                         </div>
                                     </div>
-                                    <p className="mt-1 text-xs truncate">
-                                        <span className="font-bold">Instructor:</span>{" "}
+                                    <p className="mt-1 text-xs text-black truncate">
+                                        <span className="font-bold ">Instructor:</span>{" "}
                                         {classItem?.teacher.name}
                                     </p>
                                 </div>

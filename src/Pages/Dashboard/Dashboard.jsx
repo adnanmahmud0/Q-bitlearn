@@ -59,12 +59,12 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                {/* Chart Section */}
-                                <div className="mt-8 bg-white p-6 rounded-xl shadow-lg">
-                                    <h4 className="text-2xl font-semibold text-gray-800 mb-4">Revenue Trends</h4>
-                                    <div className="h-[300px]">
-                                        <Line data={chartData} options={{ responsive: true }} />
-                                    </div>
+                            </div>
+                            {/* Chart Section */}
+                            <div className="mt-8 p-6">
+                                <h4 className="text-2xl font-semibold text-gray-800 mb-4">Revenue Trends</h4>
+                                <div className="h-[300px]">
+                                    <Line data={chartData} options={{ responsive: true }} />
                                 </div>
                             </div>
                         </section>

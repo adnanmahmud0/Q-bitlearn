@@ -49,7 +49,7 @@ const SideBar = () => {
 
     return (
         <>
-            <header className='flex shadow-md py-2 px-6 sm:px-8 bg-white min-h-[70px] tracking-wide z-[110] fixed top-0 w-full'>
+            <header className='flex shadow-md py-2 px-6 sm:px-8 bg-base-100 min-h-[70px] tracking-wide z-[110] fixed top-0 w-full'>
                 <div className='flex items-center justify-between w-full'>
                     <Link to="/" className='flex items-center'>
                         <img src={logo} alt="logo" className='w-10' />
@@ -63,35 +63,35 @@ const SideBar = () => {
             </header>
 
             <div id="sidebar-collapse-menu"
-                className="h-screen bg-white shadow-lg fixed top-[70px] left-0 overflow-auto z-[99] lg:min-w-[250px] lg:w-max transition-all duration-500">
+                className="h-screen bg-base-100 shadow-lg fixed top-[70px] left-0 overflow-auto z-[99] lg:min-w-[250px] lg:w-max transition-all duration-500">
                 <ul className="space-y-3 p-4">
                     <li>
-                        <Link to="/Dashboard" className="text-gray-800 text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
+                        <Link to="/Dashboard" className=" text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
                             <LuLayoutDashboard  className="mr-2" />
                             <span>Dashboard</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/" className="text-gray-800 text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
+                        <Link to="/" className=" text-sm flex items-center hover:bg-[#F22480] hover:text-white rounded-md px-4 py-2 transition-all">
                             <FiHome className="mr-2" />
                             <span>Home</span>
                         </Link>
                     </li>
                     {data === "Admin" && <>
                         <li>
-                            <Link to="/Dashboard/TeacherRequest" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to="/Dashboard/TeacherRequest" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiUser className="mr-2" />
                                 <span>Teacher Request</span>
                             </Link>
                         </li>
                         <li>
-                            <Link to='/Dashboard/users' className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to='/Dashboard/users' className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiUser className="mr-2" />
                                 <span>Users</span>
                             </Link>
                         </li>
                         <li>
-                            <Link to="/Dashboard/AllClasses" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to="/Dashboard/AllClasses" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiList className="mr-2" />
                                 <span>All Classes</span>
                             </Link>
@@ -99,13 +99,13 @@ const SideBar = () => {
                     </>}
                     {data === 'Teacher' && <>
                         <li>
-                            <Link to="/Dashboard/AddClass" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to="/Dashboard/AddClass" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiPlusCircle className="mr-2" />
                                 <span>Add Class</span>
                             </Link>
                         </li>
                         <li>
-                            <Link to="/Dashboard/MyClasses" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to="/Dashboard/MyClasses" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiBook className="mr-2" />
                                 <span>My Classes</span>
                             </Link>
@@ -113,20 +113,20 @@ const SideBar = () => {
                     </>}
                     {data === 'User' && <>
                         <li>
-                            <Link to="/Dashboard/My-enroll-class" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                            <Link to="/Dashboard/My-enroll-class" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                                 <FiBook className="mr-2" />
                                 <span>My Enrolled Classes</span>
                             </Link>
                         </li>
                     </>}
                     <li>
-                        <Link to="/Dashboard/My-Profile" className="text-gray-800 text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                        <Link to="/Dashboard/My-Profile" className=" text-sm flex items-center hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                             <FiUser className="mr-2" />
                             <span>Profile</span>
                         </Link>
                     </li>
                     <li>
-                        <Link onClick={handleLogOut} className="text-gray-800 text-sm flex items-center cursor-pointer hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
+                        <Link onClick={handleLogOut} className=" text-sm flex items-center cursor-pointer hover:bg-[#FFBB01] hover:text-white rounded-md px-4 py-2 transition-all">
                             <FiLogOut className="mr-2" />
                             <span>Logout</span>
                         </Link>

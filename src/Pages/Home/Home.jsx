@@ -232,7 +232,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="max-w-7xl mx-auto p-10 rounded-xl bg-white mt-10 shadow-lg my-20">
+            <div className="max-w-7xl mx-auto p-10 rounded-xl bg-white/50 mt-10 shadow-lg my-20">
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 items-center">
                     <img
                         src="https://edurock-blond.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbrand_1.c7b21ebe.png&w=256&q=75"
@@ -269,10 +269,10 @@ const Home = () => {
             </div>
             <div className='my-20'>
                 <div className='flex justify-center'>
-                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Classes</span>
+                    <span className='text-xs rounded-full py-1 px-3 text-white bg-[#FFBB01] hover:bg-[#FFBB01]'>Classes</span>
                 </div>
                 <h2 className="sm:text-4xl text-2xl font-bold text-center mb-6 mt-3 text-[#592ADF]">Most Popular Classes</h2>
-                <p className=" text-sm text-gray-500 text-center mb-10">Embark on unforgettable journeys. Book your dream vacation today!</p>
+                <p className=" text-sm text-center mb-10">Embark on unforgettable journeys. Book your dream vacation today!</p>
                 <Swiper
                     spaceBetween={20}
                     breakpoints={{
@@ -289,7 +289,7 @@ const Home = () => {
                 >
                     {enrollData?.map((classItem, index) => (
                         <SwiperSlide key={index}>
-                            <div className="bg-[#F3F4F6] rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
+                            <div className="bg-[#F3F4F6]/50 rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
                                 <div className="w-full">
                                     <img src={classItem?.image} alt={classItem?.name} className="w-full rounded-md object-cover object-top aspect-[230/150]" />
                                 </div>
@@ -299,14 +299,14 @@ const Home = () => {
                                 <div className="p-2 flex-1 flex flex-col">
                                     <h5 className="text-sm sm:text-base font-bold text-gray-800 truncate">{classItem?.title}</h5>
                                     <div className="flex-1">
-                                        <p className="mt-1 text-gray-500 truncate">{classItem?.description}</p>
+                                        <p className="mt-1 text-black truncate">{classItem?.description}</p>
                                         <div className="flex justify-between items-center">
                                             <div className="flex flex-wrap justify-between gap-2 mt-2">
                                                 <div className="flex gap-2">
                                                     <h6 className="text-sm sm:text-base font-bold text-[#f2277e]">৳{classItem?.price}</h6>
                                                 </div>
                                             </div>
-                                            <p className="mt-1 text-xs truncate"><span className="font-bold">Instructor:</span> {classItem?.teacher?.name}</p>
+                                            <p className="mt-1 text-black text-xs truncate"><span className="font-bold">Instructor:</span> {classItem?.teacher?.name}</p>
                                         </div>
                                     </div>
                                     <Link to={`/Class-Details/${classItem?._id}`} className="flex items-center gap-2 mt-4">
@@ -329,7 +329,7 @@ const Home = () => {
                         <p className="mt-4 text-sm font-bold text-blue-600">
                             <span className="rotate-90 inline-block mr-2 mb-2">|</span> ALL IN ONE MEETING SCHEDULER
                         </p>
-                        <h2 className="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">
+                        <h2 className="md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">
                             Unlock Your Potential with Seamless Scheduling
                         </h2>
                         <p className="mt-5 text-base text-gray-500 leading-relaxed">
@@ -379,11 +379,11 @@ const Home = () => {
             </div>
             <div className="grid md:grid-cols-2 items-center md:gap-8 gap-6 max-w-7xl mx-auto my-20">
                 <div className="max-md:order-1 max-md:text-center m-5">
-                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Instructor</span>
+                    <span className='text-xs rounded-full py-1 px-3 text-white bg-[#FFBB01] hover:bg-[#FFBB01]'>Instructor</span>
                     <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#592ADF] mb-4">
                         Become an Instructor
                     </h2>
-                    <p className="mt-4 text-base text-gray-600 leading-relaxed">
+                    <p className="mt-4 text-base leading-relaxed">
                         Share your knowledge and inspire students across the globe. Whether you're an experienced educator or a skilled professional,
                         Q-bitlearn provides the perfect platform to connect with eager learners and make a meaningful impact.
                     </p>
@@ -407,13 +407,13 @@ const Home = () => {
             <div className="px-8 my-20">
 
                 <div className="max-w-7xl mx-auto">
-                    <span className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01]'>Ratting</span>
+                    <span className='text-xs rounded-full py-1 px-3 text-white bg-[#FFBB01] hover:bg-[#FFBB01]'>Ratting</span>
                     <div className="grid lg:grid-cols-3 gap-6 max-lg:max-w-2xl mt-2">
                         <div className="col-span-2">
                             <h2 className="md:text-4xl text-3xl md:leading-10 font-extrabold text-[#592ADF] mb-4">
                                 What our happy clients say
                             </h2>
-                            <p className="text-sm text-gray-500 mt-4 leading-relaxed">
+                            <p className="text-sm mt-4 leading-relaxed">
                                 Hear from our learners and instructors who have transformed their lives with Q-bitlearn.
                                 Explore their inspiring stories and see how our platform empowers individuals to achieve their goals.
                             </p>
@@ -447,7 +447,7 @@ const Home = () => {
                         >
                             {rateData?.map((testimonial, index) => (
                                 <SwiperSlide key={index} className="pl-10">
-                                    <div className="max-w-[360px] h-auto py-5 pl-14 pr-4 bg-white border-2 rounded-3xl relative">
+                                    <div className="max-w-[360px] h-auto py-5 pl-14 pr-4 bg-white/50 border-2 rounded-3xl relative">
                                         <img
                                             src={testimonial?.photoURL}
                                             className="w-20 h-20 rounded-full absolute -left-10 top-0 bottom-0 my-auto border-2 border-gray-300"
@@ -457,12 +457,12 @@ const Home = () => {
                                             <h6 className="text-black text-[15px] font-bold">
                                                 {testimonial?.displayName}
                                             </h6>
-                                            <p className="mt-1 text-xs text-gray-500">
+                                            <p className="mt-1 text-xs text-black">
                                                 {testimonial?.titlename}
                                             </p>
                                         </div>
                                         <div className="mt-4">
-                                            <p className="text-gray-500 text-sm leading-relaxed">
+                                            <p className="text-black text-sm leading-relaxed">
                                                 {testimonial?.description}
                                             </p>
                                         </div>
@@ -509,15 +509,15 @@ const Home = () => {
                     </form>
                 </div>
             </div>
-            <div className="bg-white p-4 my-20">
+            <div className="p-4 my-20">
                 <div className="max-w-7xl mx-auto">
                     <div className='flex justify-center '>
-                        <div className='text-xs rounded-full py-1 px-3 bg-[#FFBB01] hover:bg-[#FFBB01] '>News & Blogs</div>
+                        <div className='text-xs rounded-full py-1 px-3 text-white bg-[#FFBB01] hover:bg-[#FFBB01] '>News & Blogs</div>
                     </div>
                     <div className="text-center max-w-xl mx-auto">
 
                         <h2 className="text-3xl font-extrabold text-[#592ADF] inline-block">LATEST BLOGS</h2>
-                        <p className="text-gray-600 text-sm mt-6">
+                        <p className="text-sm mt-6">
                             Explore our latest blog posts to stay updated on the newest trends, tips, and insights in education, technology, and self-improvement.
                         </p>
                     </div>
