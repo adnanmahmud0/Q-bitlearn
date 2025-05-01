@@ -121,7 +121,7 @@ const Register = () => {
                                         type="file"
                                         accept="image/*"
                                         id="profile-picture"
-                                        className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-[#FFBB01] pl-2 pr-8 py-3 outline-none file:cursor-pointer file:border-0 file:bg-transparent file:text-gray-800 file:mr-4"
+                                        className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-[#FFBB01] pl-2 pr-8 py-3 outline-none file:cursor-pointer file:border-0 file:bg-transparent file: file:mr-4"
                                     />
                                     <FaImage className="w-[18px] h-[18px] absolute right-2 text-[#592ADF]" />
                                 </div>
@@ -163,7 +163,7 @@ const Register = () => {
                                 >
                                     Create an account
                                 </button>
-                                <p className="text-sm mt-6 text-gray-800">
+                                <p className="text-sm mt-6 ">
                                     Already have an account?{" "}
                                     <Link to="/Login"
                                         className="text-[#592ADF] font-semibold hover:underline ml-1"
