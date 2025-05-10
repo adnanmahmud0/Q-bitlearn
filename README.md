@@ -110,8 +110,8 @@ Q-bitlearn is a dynamic and user-friendly **MERN stack** platform designed to re
 
 ## 📂 Repositories
 
-- **Frontend Repo:** [Client Side](https://github.com/Programming-Hero-Web-Course4/b10a12-client-side-adnanmahmud0)
-- **Backend Repo:** [Server Side](https://github.com/Programming-Hero-Web-Course4/b10a12-server-side-adnanmahmud0)
+- **Frontend Repo:** [Client Side](https://github.com/adnanmahmud0/Q-bitlearn)
+- **Backend Repo:** [Server Side](https://github.com/adnanmahmud0/Q-bitlearn-Server)
 
 ---
 
