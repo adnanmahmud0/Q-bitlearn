@@ -1,5 +1,3 @@
-Here's your updated version of the `Q-bitlearn 🎓` project README that includes all the requested sections while preserving the original structure and enhancing it for clarity and completeness:
-
 ---
 
 # **Q-bitlearn 🎓**
